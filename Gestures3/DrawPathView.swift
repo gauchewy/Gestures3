@@ -148,19 +148,44 @@ class SecondDrawPathView: UIViewController {
 class FinalPathView: UIViewController {
     var firstPath: UIBezierPath?
     var secondPath: UIBezierPath?
-
+    
+    let firstButton = AnimatedPointView()
+    let secondButton = AnimatedPointView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
 
-        let firstButton = AnimatedPointView()
-        firstButton.button.backgroundColor = .red
-        firstButton.animateAlong(path: firstPath ?? UIBezierPath())
-        view.addSubview(firstButton.button)
-        
-        let secondButton = AnimatedPointView()
-        secondButton.button.backgroundColor = .blue
-        secondButton.animateAlong(path: secondPath ?? UIBezierPath())
-        view.addSubview(secondButton.button)
+        setupButton(buttonView: firstButton, color: .red, path: firstPath)
+        setupButton(buttonView: secondButton, color: .blue, path: secondPath)
+    }
+    
+    func setupButton(buttonView: AnimatedPointView, color: UIColor, path: UIBezierPath?) {
+        buttonView.button.backgroundColor = color
+        buttonView.animateAlong(path: path ?? UIBezierPath())
+        view.addSubview(buttonView.button)
+        buttonView.button.addTarget(self, action: #selector(buttonDown(sender:)), for: [.touchDown, .touchDragInside])
+        buttonView.button.addTarget(self, action: #selector(buttonUp(sender:)), for: [.touchUpInside, .touchDragExit, .touchCancel])
+    }
+    
+    @objc func buttonDown(sender: UIButton) {
+        print("button is pressed")
+        guard let buttonView = view.subviews.compactMap({ $0 as? AnimatedPointView }).first(where: { $0.button == sender }) else { return }
+        buttonView.buttonIsPressed = true
+        scaleButton(sender, to: 1.5)
+        sender.alpha = 0.5
+    }
+
+    @objc func buttonUp(sender: UIButton) {
+        guard let buttonView = view.subviews.compactMap({ $0 as? AnimatedPointView }).first(where: { $0.button == sender }) else { return }
+        buttonView.buttonIsPressed = false
+        scaleButton(sender, to: 1)
+        sender.alpha = 1
+    }
+    
+    func scaleButton(_ button: UIButton, to scale: CGFloat) {
+        UIView.animate(withDuration: 0.1, animations: {
+            button.transform = CGAffineTransform(scaleX: scale, y: scale)
+        })
     }
 }

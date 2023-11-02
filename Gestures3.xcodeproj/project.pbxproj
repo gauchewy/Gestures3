@@ -15,6 +15,7 @@
 		712255E32AF4152300D719B7 /* OtherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255E22AF4152300D719B7 /* OtherView.swift */; };
 		712255E52AF4154B00D719B7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255E42AF4154B00D719B7 /* ViewController.swift */; };
 		712255E72AF4170800D719B7 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255E62AF4170800D719B7 /* ImagePicker.swift */; };
+		712255EB2AF41C4C00D719B7 /* HoldButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255EA2AF41C4C00D719B7 /* HoldButtonsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		712255E22AF4152300D719B7 /* OtherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherView.swift; sourceTree = "<group>"; };
 		712255E42AF4154B00D719B7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		712255E62AF4170800D719B7 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		712255EA2AF41C4C00D719B7 /* HoldButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoldButtonsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,12 +61,13 @@
 		712255D12AF414DF00D719B7 /* Gestures3 */ = {
 			isa = PBXGroup;
 			children = (
-				712255E62AF4170800D719B7 /* ImagePicker.swift */,
-				712255E42AF4154B00D719B7 /* ViewController.swift */,
+				712255D42AF414DF00D719B7 /* ContentView.swift */,
+				712255EA2AF41C4C00D719B7 /* HoldButtonsView.swift */,
 				712255E22AF4152300D719B7 /* OtherView.swift */,
 				712255E02AF4150600D719B7 /* ScratchView.swift */,
+				712255E62AF4170800D719B7 /* ImagePicker.swift */,
+				712255E42AF4154B00D719B7 /* ViewController.swift */,
 				712255D22AF414DF00D719B7 /* Gestures3App.swift */,
-				712255D42AF414DF00D719B7 /* ContentView.swift */,
 				712255D62AF414DF00D719B7 /* Assets.xcassets */,
 				712255D82AF414DF00D719B7 /* Preview Content */,
 			);
@@ -153,6 +156,7 @@
 				712255D52AF414DF00D719B7 /* ContentView.swift in Sources */,
 				712255D32AF414DF00D719B7 /* Gestures3App.swift in Sources */,
 				712255E72AF4170800D719B7 /* ImagePicker.swift in Sources */,
+				712255EB2AF41C4C00D719B7 /* HoldButtonsView.swift in Sources */,
 				712255E12AF4150600D719B7 /* ScratchView.swift in Sources */,
 				712255E32AF4152300D719B7 /* OtherView.swift in Sources */,
 			);

@@ -33,6 +33,19 @@ struct ContentView: View {
                 ButtonGroupView()
 
                 Spacer()
+                
+                NavigationLink(destination: HoldButtonViewControllerRepresentable()) {
+                    Text("Hold Buttons")
+                        .font(.headline)
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .padding()
+                        .foregroundColor(.white)
+                        .background(Color.green)
+                        .cornerRadius(10)
+                }.padding()
+                .navigationBarTitleDisplayMode(.inline)
+                
+                Spacer()
 
                 NavigationLink(destination: ScratchView()) {
                     Text("iScratch")

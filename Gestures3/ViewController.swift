@@ -244,10 +244,6 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         }
         self.requests.append(handPoseRequest)
     }
-    
-    
-    // MARK: - Define Hand Gestures Here
-  
 
     // MARK: - Setup Functions
     private func addCameraInput() {

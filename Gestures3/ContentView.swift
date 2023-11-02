@@ -34,7 +34,7 @@ struct ContentView: View {
 
                 Spacer()
                 
-                NavigationLink(destination: HoldButtonViewControllerRepresentable()) {
+                NavigationLink(destination: FirstDrawPathViewControllerRepresentable()) {
                     Text("Hold Buttons")
                         .font(.headline)
                         .frame(minWidth: 0, maxWidth: .infinity)

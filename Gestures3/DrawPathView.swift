@@ -18,6 +18,7 @@ struct FirstDrawPathViewControllerRepresentable: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: FirstDrawPathView, context: UIViewControllerRepresentableContext<FirstDrawPathViewControllerRepresentable>) {}
 }
 
+
 class DrawPathView: UIView {
     var path: UIBezierPath?
 

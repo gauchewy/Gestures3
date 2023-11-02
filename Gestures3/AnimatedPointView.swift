@@ -7,25 +7,12 @@
 
 import UIKit
 
+
 class AnimatedPointView: UIView {
-    var button: UIButton!
+    let button = UIButton(frame: CGRect(x: 25, y: 25, width: 50, height: 50))
     var pathLayer = CALayer()
     var buttonIsPressed = false
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        self.addSubview(button)
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-
-        button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        self.addSubview(button)
-    }
-
+    
     func animateAlong(path: UIBezierPath) {
         let animation = CAKeyframeAnimation()
         animation.path = path.cgPath

@@ -149,39 +149,18 @@ class FinalPathView: UIViewController {
     var firstPath: UIBezierPath?
     var secondPath: UIBezierPath?
 
-    lazy var firstPathView: DrawPathView = {
-        let view = DrawPathView()
-        view.path = firstPath
-        view.backgroundColor = .white
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-    lazy var secondPathView: DrawPathView = {
-        let view = DrawPathView()
-        view.path = secondPath
-        view.backgroundColor = .clear
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
+
+        let firstButton = AnimatedPointView()
+        firstButton.button.backgroundColor = .red
+        firstButton.animateAlong(path: firstPath ?? UIBezierPath())
+        view.addSubview(firstButton.button)
         
-        view.addSubview(firstPathView)
-        view.addSubview(secondPathView)
-        
-        NSLayoutConstraint.activate([
-            firstPathView.topAnchor.constraint(equalTo: view.topAnchor),
-            firstPathView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            firstPathView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            firstPathView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            secondPathView.topAnchor.constraint(equalTo: view.topAnchor),
-            secondPathView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            secondPathView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            secondPathView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-        
+        let secondButton = AnimatedPointView()
+        secondButton.button.backgroundColor = .blue
+        secondButton.animateAlong(path: secondPath ?? UIBezierPath())
+        view.addSubview(secondButton.button)
     }
 }

@@ -16,6 +16,7 @@
 		712255E52AF4154B00D719B7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255E42AF4154B00D719B7 /* ViewController.swift */; };
 		712255E72AF4170800D719B7 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255E62AF4170800D719B7 /* ImagePicker.swift */; };
 		712255EB2AF41C4C00D719B7 /* DrawPathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255EA2AF41C4C00D719B7 /* DrawPathView.swift */; };
+		712255ED2AF45AF300D719B7 /* AnimatedPointView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255EC2AF45AF300D719B7 /* AnimatedPointView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		712255E42AF4154B00D719B7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		712255E62AF4170800D719B7 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		712255EA2AF41C4C00D719B7 /* DrawPathView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawPathView.swift; sourceTree = "<group>"; };
+		712255EC2AF45AF300D719B7 /* AnimatedPointView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedPointView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 			isa = PBXGroup;
 			children = (
 				712255D42AF414DF00D719B7 /* ContentView.swift */,
+				712255EC2AF45AF300D719B7 /* AnimatedPointView.swift */,
 				712255EA2AF41C4C00D719B7 /* DrawPathView.swift */,
 				712255E22AF4152300D719B7 /* OtherView.swift */,
 				712255E02AF4150600D719B7 /* ScratchView.swift */,
@@ -154,6 +157,7 @@
 			files = (
 				712255E52AF4154B00D719B7 /* ViewController.swift in Sources */,
 				712255D52AF414DF00D719B7 /* ContentView.swift in Sources */,
+				712255ED2AF45AF300D719B7 /* AnimatedPointView.swift in Sources */,
 				712255D32AF414DF00D719B7 /* Gestures3App.swift in Sources */,
 				712255E72AF4170800D719B7 /* ImagePicker.swift in Sources */,
 				712255EB2AF41C4C00D719B7 /* DrawPathView.swift in Sources */,

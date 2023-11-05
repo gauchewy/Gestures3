@@ -44,6 +44,7 @@ struct OtherView: View {
                     Rectangle()
                         .fill(Color.green)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .ignoresSafeArea()
                 }
                 //entire vstack is the camera
                 VStack {

@@ -11,26 +11,24 @@ struct HoldButtonsView: View {
     @State var viewCleared: Bool = false
 
     var body: some View {
-        
-        VStack{
-            ZStack{
-                Image("treehouse")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding()
-                
-                
-                if !viewCleared{
-                    Rectangle()
-                        .fill(Color.green)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                }
-                //entire vstack is the camera
-                VStack {
-                    HStack{
+        GeometryReader { geometry in
+            VStack{
+                ZStack{
+                    Image("treehouse")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding()
+                    
+                    if !viewCleared{
+                        Rectangle()
+                            .fill(Color.green)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .ignoresSafeArea()
+                    }
+                    
+                    VStack {
                         Spacer()
-
-                        StackButtons()
+                        StackButtons(width: geometry.size.width, height: geometry.size.height)
                             .padding()
                     }
                 }
@@ -39,32 +37,30 @@ struct HoldButtonsView: View {
     }
 }
 
-
-
-
 struct StackButtons: View {
+    let width: CGFloat
+    let height: CGFloat
+    let buttonwidth = 50.0
+    
     var body: some View {
-        GeometryReader { geometry in
-            VStack(spacing: 20) {
-                ForEach([0.35, 0.25, 0.15], id: \.self) { spacerRatio in
-                    HStack {
-                        Spacer().frame(width: geometry.size.width * spacerRatio)
-                        Button(action: {}){
-                            Circle().frame(width: 50, height: 50)
-                        }
-                        Spacer().frame(width: geometry.size.width * (0.5 - spacerRatio))
-                        Button(action: {}){
-                            Circle().frame(width: 50, height: 50)
-                        }
-                        Spacer().frame(width: geometry.size.width * spacerRatio)
+        VStack(spacing: 20) {
+            ForEach([0.3, 0.2, 0.1], id: \.self) { spacerRatio in
+                HStack {
+                    Spacer().frame(width: width * CGFloat(spacerRatio)-CGFloat(buttonwidth / 2))
+                    Button(action: {}){
+                        Circle().frame(width: buttonwidth, height: buttonwidth)
                     }
+                    Spacer().frame(width: width * (0.5 - spacerRatio))
+                    Button(action: {}){
+                        Circle().frame(width: buttonwidth, height: buttonwidth)
+                    }
+                    Spacer().frame(width: width * spacerRatio)
                 }
-                Spacer()
             }
-            .frame(width: geometry.size.width, alignment: .bottom)
         }
     }
 }
+
 
 struct HoldButtonsView_Previews: PreviewProvider {
     static var previews: some View {

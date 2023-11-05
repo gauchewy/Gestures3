@@ -45,7 +45,6 @@ struct OtherView: View {
                         .fill(Color.green)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
-                
                 //entire vstack is the camera
                 VStack {
                     Spacer()
@@ -60,12 +59,7 @@ struct OtherView: View {
                     }
                 }
                 //camera ends
-                
-                
             }
-            
         }
-        
-        
     }
 }

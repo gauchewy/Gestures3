@@ -8,56 +8,60 @@
 import SwiftUI
 
 struct HoldButtonsView: View {
-    var body: some View {
-        VStack {
-            Spacer()
-            Spacer()
-            StackButtons()
+    @State var viewCleared: Bool = false
 
+    var body: some View {
+        
+        VStack{
+            ZStack{
+                Image("treehouse")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .padding()
+                
+                
+                if !viewCleared{
+                    Rectangle()
+                        .fill(Color.green)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+                //entire vstack is the camera
+                VStack {
+                    HStack{
+                        Spacer()
+
+                        StackButtons()
+                            .padding()
+                    }
+                }
+            }
         }
     }
 }
 
+
+
+
 struct StackButtons: View {
     var body: some View {
         GeometryReader { geometry in
-            VStack {
+            VStack(spacing: 20) {
+                ForEach([0.35, 0.25, 0.15], id: \.self) { spacerRatio in
+                    HStack {
+                        Spacer().frame(width: geometry.size.width * spacerRatio)
+                        Button(action: {}){
+                            Circle().frame(width: 50, height: 50)
+                        }
+                        Spacer().frame(width: geometry.size.width * (0.5 - spacerRatio))
+                        Button(action: {}){
+                            Circle().frame(width: 50, height: 50)
+                        }
+                        Spacer().frame(width: geometry.size.width * spacerRatio)
+                    }
+                }
                 Spacer()
-                HStack {
-                    Spacer().frame(width: geometry.size.width * 0.15)
-                    Button(action: {}){
-                        Circle().frame(width: 50, height: 50)
-                    }
-                    Spacer().frame(width: geometry.size.width * 0.70)
-                    Button(action: {}){
-                        Circle().frame(width: 50, height: 50)
-                    }
-                    Spacer().frame(width: geometry.size.width * 0.15)
-                }
-                HStack {
-                    Spacer().frame(width: geometry.size.width * 0.25)
-                    Button(action: {}){
-                        Circle().frame(width: 50, height: 50)
-                    }
-                    Spacer().frame(width: geometry.size.width * 0.50)
-                    Button(action: {}){
-                        Circle().frame(width: 50, height: 50)
-                    }
-                    Spacer().frame(width: geometry.size.width * 0.25)
-                }
-                HStack {
-                    Spacer().frame(width: geometry.size.width * 0.35)
-                    Button(action: {}){
-                        Circle().frame(width: 50, height: 50)
-                    }
-                    Spacer().frame(width: geometry.size.width * 0.30)
-                    Button(action: {}){
-                        Circle().frame(width: 50, height: 50)
-                    }
-                    Spacer().frame(width: geometry.size.width * 0.35)
-                }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+            .frame(width: geometry.size.width, alignment: .bottom)
         }
     }
 }

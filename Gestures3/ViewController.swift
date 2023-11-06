@@ -7,9 +7,11 @@
 import UIKit
 import AVFoundation
 import Vision
+import CoreML
 
 class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     
+    var interlaceModel: VNCoreMLModel!
     var selectedOption: SelectedOption?
     let complete: (Bool) -> Void
 
@@ -42,6 +44,13 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         addCameraInput()
         showCameraFeed()
         getCameraFrames()
+        
+        do{
+            let model = Interlace()
+            interlaceModel = try VNCoreMLModel(for: model.model)
+        } catch {
+            fatalError("could not load model")
+        }
 
         DispatchQueue.global(qos: .userInitiated).async {
             self.captureSession.startRunning()

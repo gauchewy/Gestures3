@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0617EA7C2AF96F3A006D0F0A /* Interlace.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 0617EA7B2AF96F3A006D0F0A /* Interlace.mlmodel */; };
 		712255D32AF414DF00D719B7 /* Gestures3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255D22AF414DF00D719B7 /* Gestures3App.swift */; };
 		712255D52AF414DF00D719B7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255D42AF414DF00D719B7 /* ContentView.swift */; };
 		712255D72AF414DF00D719B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 712255D62AF414DF00D719B7 /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0617EA7B2AF96F3A006D0F0A /* Interlace.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = Interlace.mlmodel; path = ../../../../Desktop/Interlace.mlmodel; sourceTree = "<group>"; };
 		712255CF2AF414DF00D719B7 /* Gestures3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gestures3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		712255D22AF414DF00D719B7 /* Gestures3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gestures3App.swift; sourceTree = "<group>"; };
 		712255D42AF414DF00D719B7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 		712255D12AF414DF00D719B7 /* Gestures3 */ = {
 			isa = PBXGroup;
 			children = (
+				0617EA7B2AF96F3A006D0F0A /* Interlace.mlmodel */,
 				712255D42AF414DF00D719B7 /* ContentView.swift */,
 				712255EA2AF41C4C00D719B7 /* HoldButtonsView.swift */,
 				712255E22AF4152300D719B7 /* OtherView.swift */,
@@ -152,6 +155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0617EA7C2AF96F3A006D0F0A /* Interlace.mlmodel in Sources */,
 				712255E52AF4154B00D719B7 /* ViewController.swift in Sources */,
 				712255D52AF414DF00D719B7 /* ContentView.swift in Sources */,
 				712255D32AF414DF00D719B7 /* Gestures3App.swift in Sources */,

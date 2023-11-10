@@ -15,6 +15,8 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     var gestureModel: VNCoreMLModel!
     var selectedOption: SelectedOption?
     var onHandPoseDetected: (([VNHumanHandPoseObservation]) -> Void)?
+    var lastInterlaceDetectionTime: Date? = nil
+    let gestureTimeoutInterval: TimeInterval = 1.0
     let complete: (Bool) -> Void
 
     init(selectedOption: SelectedOption, completion: @escaping (Bool) -> Void) {
@@ -179,11 +181,27 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
             // Perform actions based on the used model's prediction output.
             // Note: this prediction may differ based on your model.
             let predictedLabel = predictionOutput.label
-            if predictedLabel == "InterlaceFingers" {
+            
+            if predictedLabel == "Background" {
                 DispatchQueue.main.async {
-                    self.complete(true)
+                    self.complete(false)
                 }
             }
+            
+            // UNSURE ABOUT THIS...need to look over
+            DispatchQueue.main.async {
+                   if self.selectedOption == .interlace && predictedLabel == "InterlaceFingers" {
+                     self.lastInterlaceDetectionTime = Date()
+                     self.complete(true)
+                   } else {
+                     // Check if specific pose hasn't been seen for a specified time interval
+                     if let lastDetectionTime = self.lastInterlaceDetectionTime,
+                       lastDetectionTime.timeIntervalSinceNow < -self.gestureTimeoutInterval {
+                       self.complete(false)
+                     }
+                   }
+                 }
+            
         }
     }
 }

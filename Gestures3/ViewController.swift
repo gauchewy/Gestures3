@@ -16,6 +16,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     var selectedOption: SelectedOption?
     var onHandPoseDetected: (([VNHumanHandPoseObservation]) -> Void)?
     var lastInterlaceDetectionTime: Date? = nil
+    var lastBinocularsDetectionTime: Date? = nil
     let gestureTimeoutInterval: TimeInterval = 1.0
     let complete: (Bool) -> Void
 
@@ -70,11 +71,11 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
             }
             
             self?.onHandPoseDetected = { observations in
-                for observation in observations {
-                    // Process each observation
-                    print("New hand pose observation detected.")
-                    print(observation)
-                }
+//                for observation in observations {
+//                    // Process each observation
+//                    print("New hand pose observation detected.")
+//                    print(observation)
+//                }
             }
             
             // Calling the callback function here when observations are ready.
@@ -181,8 +182,11 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
             // Perform actions based on the used model's prediction output.
             // Note: this prediction may differ based on your model.
             let predictedLabel = predictionOutput.label
+            let confidence = predictionOutput.labelProbabilities[predictionOutput.label]!
             
-            if predictedLabel == "Background" {
+            print("PREDICTION: \(predictedLabel) \(confidence) %")
+            
+            if predictedLabel == "Background" && confidence >= 0.9 {
                 DispatchQueue.main.async {
                     self.complete(false)
                 }
@@ -190,7 +194,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
             
             // UNSURE ABOUT THIS...need to look over
             DispatchQueue.main.async {
-                   if self.selectedOption == .interlace && predictedLabel == "InterlaceFingers" {
+                if self.selectedOption == .interlace && predictedLabel == "InterlaceFingers" && confidence >= 0.95 {
                      self.lastInterlaceDetectionTime = Date()
                      self.complete(true)
                    } else {
@@ -200,6 +204,17 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
                        self.complete(false)
                      }
                    }
+                
+                if self.selectedOption == .binoculars && predictedLabel == "Binoculars" && confidence >= 0.95 {
+                      self.lastBinocularsDetectionTime = Date()
+                      self.complete(true)
+                    } else {
+                      // Check if specific pose hasn't been seen for a specified time interval
+                      if let lastDetectionTime = self.lastBinocularsDetectionTime,
+                        lastDetectionTime.timeIntervalSinceNow < -self.gestureTimeoutInterval {
+                        self.complete(false)
+                      }
+                    }
                  }
             
         }

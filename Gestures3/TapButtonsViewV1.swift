@@ -9,6 +9,8 @@ import SwiftUI
 
 struct TapButtonsViewV1: View {
     @State var viewCleared: Bool = false
+    let buttonRadius = 60.0
+    let vShape = [200.0, 100.0, 30.0]
 
     var body: some View {
         GeometryReader { geometry in
@@ -28,7 +30,11 @@ struct TapButtonsViewV1: View {
                     
                     VStack {
                         Spacer()
-                        StackButtons(width: geometry.size.width, height: geometry.size.height)
+                        StackButtons(width: geometry.size.width, 
+                                     height: geometry.size.height,
+                                     buttonRadius: buttonRadius,
+                                     vShape: vShape
+                        )
                             .padding()
                     }
                 }
@@ -40,31 +46,30 @@ struct TapButtonsViewV1: View {
 struct StackButtons: View {
     let width: CGFloat
     let height: CGFloat
-    let buttonwidth = 50.0
-    let buttonRadius = 50.0
-    let vShape = [0.05, 0.2, 0.4]
-    let growRatio = 1.05
+    let buttonRadius: Double
+    let vShape: [Double]
+    let growRatio = 1.00
     @State private var highlightedIndex = 0
 
     var body: some View {
         VStack(spacing: 20) {
             ForEach(vShape.indices, id: \.self) { index in
                 HStack {
-                    Spacer().frame(width: width * CGFloat(vShape[index])-CGFloat(buttonwidth / 2))
+                    Spacer()
                     Button(action: {}){
                         Circle()
-                            .frame(width: highlightedIndex == index ? buttonwidth * growRatio : buttonwidth,
+                            .frame(width: highlightedIndex == index ? buttonRadius * growRatio : buttonRadius,
                                    height: highlightedIndex == index ? buttonRadius * growRatio : buttonRadius)
                             .foregroundColor(highlightedIndex == index ? .blue : .white)
                     }
-                    Spacer().frame(width: width * (0.5 - vShape[index]))
+                    Spacer().frame(width: vShape[index])
                     Button(action: {}){
                         Circle()
-                            .frame(width: highlightedIndex == index ? buttonwidth * growRatio : buttonwidth,
+                            .frame(width: highlightedIndex == index ? buttonRadius * growRatio : buttonRadius,
                                    height: highlightedIndex == index ? buttonRadius * growRatio : buttonRadius)
                             .foregroundColor(highlightedIndex == index ? .blue : .white)
                     }
-                    Spacer().frame(width: width * vShape[index])
+                    Spacer()
                 }
             }
         }

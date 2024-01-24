@@ -4,6 +4,9 @@ import SwiftUI
 
 struct TapButtonsViewV2: View {
     @State var viewCleared: Bool = false
+    let buttonRadius = 60.0
+    let vShape = [30.0, 100.0, 200.0]
+
 
     var body: some View {
         GeometryReader { geometry in
@@ -23,7 +26,11 @@ struct TapButtonsViewV2: View {
                     
                     VStack {
                         Spacer()
-                        StackButtons(width: geometry.size.width, height: geometry.size.height)
+                        StackButtons(width: geometry.size.width,
+                                     height: geometry.size.height,
+                                     buttonRadius: buttonRadius,
+                                     vShape: vShape
+                        )
                             .padding()
                     }
                 }
@@ -32,51 +39,6 @@ struct TapButtonsViewV2: View {
     }
 }
 
-struct StackButtons2: View {
-    let width: CGFloat
-    let height: CGFloat
-    let buttonWidth = 80.0
-    let buttonRadius = 80.0
-    let vShape = [0.4, 0.2, 0.4]
-    let growRatio = 1.00
-    @State private var highlightedIndex = 0
-
-    var body: some View {
-        VStack(spacing: 20) {
-            ForEach(vShape.indices, id: \.self) { index in
-                HStack {
-                    Spacer().frame(width: width * CGFloat(vShape[index]) - CGFloat(buttonWidth / 2))
-                    Button(action: {}){
-                        Circle()
-                            .frame(width: highlightedIndex == index ? buttonWidth * growRatio : buttonWidth,
-                                   height: highlightedIndex == index ? buttonRadius * growRatio : buttonRadius)
-                            .foregroundColor(highlightedIndex == index ? .blue : .white)
-                    }
-                    Spacer().frame(width: width * (0.5 - vShape[index]))
-                    Button(action: {}){
-                        Circle()
-                            .frame(width: highlightedIndex == index ? buttonWidth * growRatio : buttonWidth,
-                                   height: highlightedIndex == index ? buttonRadius * growRatio : buttonRadius)
-                            .foregroundColor(highlightedIndex == index ? .blue : .white)
-                    }
-                    Spacer().frame(width: width * vShape[index])
-                }
-            }
-        }
-        .onAppear {
-            Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-                // Animate the index increasing
-                withAnimation {
-                    if highlightedIndex < vShape.count - 1 {
-                        highlightedIndex += 1
-                    } else {
-                        highlightedIndex = 0
-                    }
-                }
-            }
-        }
-    }
-}
 
 struct TapButtonsViewV2_Previews: PreviewProvider {
     static var previews: some View {

@@ -30,10 +30,11 @@ struct TapButtonsViewV1: View {
                     
                     VStack {
                         Spacer()
-                        StackButtons(width: geometry.size.width, 
+                        StackButtons(width: geometry.size.width,
                                      height: geometry.size.height,
                                      buttonRadius: buttonRadius,
-                                     vShape: vShape
+                                     vShape: vShape,
+                                     viewCleared: $viewCleared // Binding
                         )
                             .padding()
                     }
@@ -48,33 +49,60 @@ struct StackButtons: View {
     let height: CGFloat
     let buttonRadius: Double
     let vShape: [Double]
-    let growRatio = 1.00
+    let growRatio = 1.09
     @State private var highlightedIndex = 0
+    @State private var firstButtonPressed = false
+    @State private var secondButtonPressed = false
+    @Binding var viewCleared: Bool // Binding to parent state
 
     var body: some View {
         VStack(spacing: 20) {
             ForEach(vShape.indices, id: \.self) { index in
                 HStack {
                     Spacer()
-                    Button(action: {}){
-                        Circle()
-                            .frame(width: highlightedIndex == index ? buttonRadius * growRatio : buttonRadius,
-                                   height: highlightedIndex == index ? buttonRadius * growRatio : buttonRadius)
-                            .foregroundColor(highlightedIndex == index ? .blue : .white)
-                    }
+                    Circle()
+                        .frame(width: firstButtonPressed && highlightedIndex == index ? buttonRadius * growRatio : buttonRadius,
+                               height: firstButtonPressed && highlightedIndex == index ? buttonRadius * growRatio : buttonRadius)
+                        .foregroundColor(highlightedIndex == index ? .blue : .white)
+                        .onLongPressGesture(minimumDuration: .infinity, maximumDistance: .infinity, pressing: { pressing in
+                            if highlightedIndex == index {
+                                firstButtonPressed = pressing
+                         
+                            }
+                            else{
+                                firstButtonPressed = false
+                                viewCleared = false
+                            }
+                            checkButtonsPressed()
+                            
+                        }, perform: {
+                            
+                        })
                     Spacer().frame(width: vShape[index])
-                    Button(action: {}){
-                        Circle()
-                            .frame(width: highlightedIndex == index ? buttonRadius * growRatio : buttonRadius,
-                                   height: highlightedIndex == index ? buttonRadius * growRatio : buttonRadius)
-                            .foregroundColor(highlightedIndex == index ? .blue : .white)
-                    }
+                    Circle()
+                        .frame(width: secondButtonPressed && highlightedIndex == index ? buttonRadius * growRatio : buttonRadius,
+                               height: secondButtonPressed && highlightedIndex == index ? buttonRadius * growRatio : buttonRadius)
+                        .foregroundColor(highlightedIndex == index ? .blue : .white)
+                        .onLongPressGesture(minimumDuration: .infinity, maximumDistance: .infinity, pressing: { pressing in
+                            if highlightedIndex == index {
+                                secondButtonPressed = pressing
+                  
+                            }
+                            else{
+                                secondButtonPressed = false
+                                viewCleared = false
+                            }
+                            checkButtonsPressed()
+                            
+                        }, perform: {
+                            
+                        })
                     Spacer()
                 }
             }
         }
         .onAppear {
-            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
+            Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true) { _ in
                 // Animate the index increasing
                 withAnimation {
                     if highlightedIndex < vShape.count - 1 {
@@ -86,7 +114,19 @@ struct StackButtons: View {
             }
         }
     }
+    
+
+    private func checkButtonsPressed() {
+            // Set viewCleared to true only if both buttons are pressed
+            viewCleared = firstButtonPressed && secondButtonPressed
+
+            // As soon as one of the buttons is released, set viewCleared to false
+            if !firstButtonPressed || !secondButtonPressed {
+                viewCleared = false
+            }
+        }
 }
+
 
 struct TapButtonsViewV1_Previews: PreviewProvider {
     static var previews: some View {

@@ -29,7 +29,8 @@ struct TapButtonsViewV2: View {
                         StackButtons(width: geometry.size.width,
                                      height: geometry.size.height,
                                      buttonRadius: buttonRadius,
-                                     vShape: vShape
+                                     vShape: vShape,
+                                     viewCleared: $viewCleared // Binding
                         )
                             .padding()
                     }

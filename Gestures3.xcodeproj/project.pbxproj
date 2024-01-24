@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7108E8922B6071DD00363B88 /* TapButtonsViewV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7108E8912B6071DD00363B88 /* TapButtonsViewV2.swift */; };
 		712255D32AF414DF00D719B7 /* Gestures3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255D22AF414DF00D719B7 /* Gestures3App.swift */; };
 		712255D52AF414DF00D719B7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255D42AF414DF00D719B7 /* ContentView.swift */; };
 		712255D72AF414DF00D719B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 712255D62AF414DF00D719B7 /* Assets.xcassets */; };
@@ -15,10 +16,11 @@
 		712255E32AF4152300D719B7 /* OtherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255E22AF4152300D719B7 /* OtherView.swift */; };
 		712255E52AF4154B00D719B7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255E42AF4154B00D719B7 /* ViewController.swift */; };
 		712255E72AF4170800D719B7 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255E62AF4170800D719B7 /* ImagePicker.swift */; };
-		712255EB2AF41C4C00D719B7 /* HoldButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255EA2AF41C4C00D719B7 /* HoldButtonsView.swift */; };
+		712255EB2AF41C4C00D719B7 /* TapButtonsViewV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255EA2AF41C4C00D719B7 /* TapButtonsViewV1.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7108E8912B6071DD00363B88 /* TapButtonsViewV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapButtonsViewV2.swift; sourceTree = "<group>"; };
 		712255CF2AF414DF00D719B7 /* Gestures3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gestures3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		712255D22AF414DF00D719B7 /* Gestures3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gestures3App.swift; sourceTree = "<group>"; };
 		712255D42AF414DF00D719B7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -28,7 +30,7 @@
 		712255E22AF4152300D719B7 /* OtherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherView.swift; sourceTree = "<group>"; };
 		712255E42AF4154B00D719B7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		712255E62AF4170800D719B7 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
-		712255EA2AF41C4C00D719B7 /* HoldButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoldButtonsView.swift; sourceTree = "<group>"; };
+		712255EA2AF41C4C00D719B7 /* TapButtonsViewV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapButtonsViewV1.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,7 +64,8 @@
 			isa = PBXGroup;
 			children = (
 				712255D42AF414DF00D719B7 /* ContentView.swift */,
-				712255EA2AF41C4C00D719B7 /* HoldButtonsView.swift */,
+				712255EA2AF41C4C00D719B7 /* TapButtonsViewV1.swift */,
+				7108E8912B6071DD00363B88 /* TapButtonsViewV2.swift */,
 				712255E22AF4152300D719B7 /* OtherView.swift */,
 				712255E02AF4150600D719B7 /* ScratchView.swift */,
 				712255E62AF4170800D719B7 /* ImagePicker.swift */,
@@ -152,11 +155,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7108E8922B6071DD00363B88 /* TapButtonsViewV2.swift in Sources */,
 				712255E52AF4154B00D719B7 /* ViewController.swift in Sources */,
 				712255D52AF414DF00D719B7 /* ContentView.swift in Sources */,
 				712255D32AF414DF00D719B7 /* Gestures3App.swift in Sources */,
 				712255E72AF4170800D719B7 /* ImagePicker.swift in Sources */,
-				712255EB2AF41C4C00D719B7 /* HoldButtonsView.swift in Sources */,
+				712255EB2AF41C4C00D719B7 /* TapButtonsViewV1.swift in Sources */,
 				712255E12AF4150600D719B7 /* ScratchView.swift in Sources */,
 				712255E32AF4152300D719B7 /* OtherView.swift in Sources */,
 			);

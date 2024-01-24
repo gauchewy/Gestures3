@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HoldButtonsView: View {
+struct TapButtonsViewV1: View {
     @State var viewCleared: Bool = false
 
     var body: some View {
@@ -83,8 +83,8 @@ struct StackButtons: View {
     }
 }
 
-struct HoldButtonsView_Previews: PreviewProvider {
+struct TapButtonsViewV1_Previews: PreviewProvider {
     static var previews: some View {
-        HoldButtonsView()
+        TapButtonsViewV1()
     }
 }

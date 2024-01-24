@@ -34,8 +34,19 @@ struct ContentView: View {
 
                 Spacer()
                 
-                NavigationLink(destination: HoldButtonsView()) {
-                    Text("Hold Buttons")
+                NavigationLink(destination: TapButtonsViewV1()) {
+                    Text("Tap Buttons One")
+                        .font(.headline)
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .padding()
+                        .foregroundColor(.white)
+                        .background(Color.green)
+                        .cornerRadius(10)
+                }.padding()
+                .navigationBarTitleDisplayMode(.inline)
+                
+                NavigationLink(destination: TapButtonsViewV2()) {
+                    Text("Tap Buttons Two")
                         .font(.headline)
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .padding()

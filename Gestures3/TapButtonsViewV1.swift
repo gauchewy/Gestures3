@@ -50,9 +50,11 @@ struct StackButtons: View {
     let buttonRadius: Double
     let vShape: [Double]
     let growRatio = 1.09
+    let duration = 1.5
     @State private var highlightedIndex = 0
     @State private var firstButtonPressed = false
     @State private var secondButtonPressed = false
+    @State private var lastPressedTime = Date()
     @Binding var viewCleared: Bool // Binding to parent state
 
     var body: some View {
@@ -67,16 +69,12 @@ struct StackButtons: View {
                         .onLongPressGesture(minimumDuration: .infinity, maximumDistance: .infinity, pressing: { pressing in
                             if highlightedIndex == index {
                                 firstButtonPressed = pressing
+                                checkButtonsPressed()
+                                lastPressedTime = Date()
+                            }
                          
-                            }
-                            else{
-                                firstButtonPressed = false
-                                viewCleared = false
-                            }
-                            checkButtonsPressed()
-                            
                         }, perform: {
-                            
+
                         })
                     Spacer().frame(width: vShape[index])
                     Circle()
@@ -86,23 +84,19 @@ struct StackButtons: View {
                         .onLongPressGesture(minimumDuration: .infinity, maximumDistance: .infinity, pressing: { pressing in
                             if highlightedIndex == index {
                                 secondButtonPressed = pressing
-                  
+                                checkButtonsPressed()
+                                lastPressedTime = Date()
                             }
-                            else{
-                                secondButtonPressed = false
-                                viewCleared = false
-                            }
-                            checkButtonsPressed()
-                            
+                           
                         }, perform: {
-                            
+
                         })
                     Spacer()
                 }
             }
         }
         .onAppear {
-            Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true) { _ in
+            Timer.scheduledTimer(withTimeInterval: duration, repeats: true) { _ in
                 // Animate the index increasing
                 withAnimation {
                     if highlightedIndex < vShape.count - 1 {
@@ -117,14 +111,21 @@ struct StackButtons: View {
     
 
     private func checkButtonsPressed() {
-            // Set viewCleared to true only if both buttons are pressed
-            viewCleared = firstButtonPressed && secondButtonPressed
-
-            // As soon as one of the buttons is released, set viewCleared to false
-            if !firstButtonPressed || !secondButtonPressed {
-                viewCleared = false
-            }
+        // As soon as one of the buttons is released, set viewCleared to false
+        if !firstButtonPressed || !secondButtonPressed {
+            print("button released")
+            viewCleared = false
         }
+
+        // if the press lasts longer than the duration variable, set viewCleared to false
+        if Date().timeIntervalSince(lastPressedTime) > duration {
+            print("press lasted longer than dur")
+            viewCleared = false
+        }
+        else if firstButtonPressed && secondButtonPressed{
+            viewCleared = true
+        }
+    }
 }
 
 

@@ -69,13 +69,13 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
 
     
     private func setupVision() {
-
+        
         // Completion handler
         let handler: ([VNHumanHandPoseObservation]) -> Void = { observations in
             
             // Reset the no observations trigger
             self.noObservationsTriggered = false
-
+            
             if !observations.isEmpty {
                 guard let keypointsMultiArray = try? observations[0].keypointsMultiArray() else {
                     print("Failed to create keypointsMultiArray")
@@ -94,26 +94,26 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
                 }
                 return
             }
-
+            
             guard let keypointsMultiArray = try? observations[0].keypointsMultiArray() else {
                 print("Failed to create keypointsMultiArray")
                 self.complete(false)
                 return
             }
-
+            
             guard let predictionOutput = try? self.gestureModel.prediction(poses: keypointsMultiArray) else {
                 print("Failed to make prediction")
                 return
             }
-
+            
             let predictedLabel = predictionOutput.label // No need for optional binding
             guard let confidence = predictionOutput.labelProbabilities[predictedLabel] else {
                 print("Unable to retrieve confidence for \(predictedLabel)")
                 return
             }
-
+            
             print("PREDICTION: \(predictedLabel) \(confidence)")
-
+            
             DispatchQueue.main.async {
                 if self.selectedOption == .binoculars && predictedLabel == "Binoculars" && confidence >= 0.9 {
                     self.lastBinocularsDetectionTime = Date()
@@ -145,135 +145,135 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
                             DispatchQueue.main.async {
                                 self.complete(true)
                                 return
-                            
+                                
+                            }
                         }
                     }
-                }
-                        
-                if predictedLabel == "Background" && confidence >= 0.9 {
-                    self.complete(false)
+                    
+                    if predictedLabel == "Background" && confidence >= 0.9 {
+                        self.complete(false)
+                    }
                 }
             }
+            
+            // Define hand pose request
+            let handPoseRequest = VNDetectHumanHandPoseRequest(completionHandler: {(request, error) in
+                guard let observations = request.results as? [VNHumanHandPoseObservation] else {
+                    return print("Error: \(error?.localizedDescription ?? "unknown error")")
+                }
+                handler(observations)
+            })
+            
+            self.requests.append(handPoseRequest)
         }
-
-        // Define hand pose request
-        let handPoseRequest = VNDetectHumanHandPoseRequest(completionHandler: {(request, error) in
-            guard let observations = request.results as? [VNHumanHandPoseObservation] else {
-                return print("Error: \(error?.localizedDescription ?? "unknown error")")
+        
+        
+        
+        // MARK: - Setup Functions
+        private func addCameraInput() {
+            guard let device = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInTrueDepthCamera, .builtInDualCamera, .builtInWideAngleCamera], mediaType: .video, position: .front).devices.first else {
+                fatalError("No camera detected. Please use a real camera, not a simulator.")
             }
-            handler(observations)
-        })
-
-        self.requests.append(handPoseRequest)
-    }
-    
-  
-
-    // MARK: - Setup Functions
-    private func addCameraInput() {
-        guard let device = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInTrueDepthCamera, .builtInDualCamera, .builtInWideAngleCamera], mediaType: .video, position: .front).devices.first else {
-            fatalError("No camera detected. Please use a real camera, not a simulator.")
-        }
-
-        let cameraInput = try! AVCaptureDeviceInput(device: device)
-        captureSession.addInput(cameraInput)
-    }
-    
-    private func showCameraFeed() {
-        previewLayer.videoGravity = .resizeAspectFill
-        view.layer.addSublayer(previewLayer)
-        previewLayer.frame = view.frame
-    }
-    
-    private func getCameraFrames() {
-        videoDataOutput.videoSettings = [(kCVPixelBufferPixelFormatTypeKey as NSString): NSNumber(value: kCVPixelFormatType_32BGRA)] as [String: Any]
-        
-        videoDataOutput.alwaysDiscardsLateVideoFrames = true
-        // You do not want to process the frames on the Main Thread so we offload to another thread
-        videoDataOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "camera_frame_processing_queue"))
-        
-        captureSession.addOutput(videoDataOutput)
-        
-        guard let connection = videoDataOutput.connection(with: .video), connection.isVideoOrientationSupported else {
-            return
+            
+            let cameraInput = try! AVCaptureDeviceInput(device: device)
+            captureSession.addInput(cameraInput)
         }
         
-        connection.videoOrientation = .portrait
+        private func showCameraFeed() {
+            previewLayer.videoGravity = .resizeAspectFill
+            view.layer.addSublayer(previewLayer)
+            previewLayer.frame = view.frame
+        }
         
-    }
-    
-    func loadModel() -> GESTURES31 {
-        let config = MLModelConfiguration()
-        guard let model = try? GESTURES31(configuration: config) else {
-            fatalError("Failed to load the GESTURES31 model")
+        private func getCameraFrames() {
+            videoDataOutput.videoSettings = [(kCVPixelBufferPixelFormatTypeKey as NSString): NSNumber(value: kCVPixelFormatType_32BGRA)] as [String: Any]
+            
+            videoDataOutput.alwaysDiscardsLateVideoFrames = true
+            // You do not want to process the frames on the Main Thread so we offload to another thread
+            videoDataOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "camera_frame_processing_queue"))
+            
+            captureSession.addOutput(videoDataOutput)
+            
+            guard let connection = videoDataOutput.connection(with: .video), connection.isVideoOrientationSupported else {
+                return
+            }
+            
+            connection.videoOrientation = .portrait
+            
         }
-        return model
-    }
-    
-    
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-            return
+        
+        func loadModel() -> GESTURES31 {
+            let config = MLModelConfiguration()
+            guard let model = try? GESTURES31(configuration: config) else {
+                fatalError("Failed to load the GESTURES31 model")
+            }
+            return model
         }
-
-        let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:])
-        do {
-            try imageRequestHandler.perform(self.requests)
-        } catch {
-            print("Failed to perform image request handler: \(error)")
-            return
+        
+        
+        func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+            guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+                return
+            }
+            
+            let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:])
+            do {
+                try imageRequestHandler.perform(self.requests)
+            } catch {
+                print("Failed to perform image request handler: \(error)")
+                return
+            }
         }
-    }
-    
-    private func isFingerExtended(fingerTip: VNRecognizedPoint?,
-                                  fingerPoints: [VNHumanHandPoseObservation.JointName : VNRecognizedPoint],
-                                  mcpJoint: VNHumanHandPoseObservation.JointName,
-                                  wristLocation: CGPoint) -> Bool {
-        // Ensure the fingertip and the MCP joint points are recognized.
-        guard let fingerTip = fingerTip,
-              let mcpJointPoint = fingerPoints[mcpJoint] else {
+        
+        private func isFingerExtended(fingerTip: VNRecognizedPoint?,
+                                      fingerPoints: [VNHumanHandPoseObservation.JointName : VNRecognizedPoint],
+                                      mcpJoint: VNHumanHandPoseObservation.JointName,
+                                      wristLocation: CGPoint) -> Bool {
+            // Ensure the fingertip and the MCP joint points are recognized.
+            guard let fingerTip = fingerTip,
+                  let mcpJointPoint = fingerPoints[mcpJoint] else {
+                return false
+            }
+            
+            // Get the locations of the points.
+            let fingerPoint = fingerTip.location
+            let mcpPoint = mcpJointPoint.location
+            
+            // Determine vectors from the MCP joint to the fingertip and to the wrist.
+            let fingerVector = CGVector(dx: fingerPoint.x - mcpPoint.x, dy: fingerPoint.y - mcpPoint.y)
+            let wristVector = CGVector(dx: wristLocation.x - mcpPoint.x, dy: wristLocation.y - mcpPoint.y)
+            
+            // Calculate the cosine of the angle between the vectors.
+            let dotProduct = fingerVector.dx * wristVector.dx + fingerVector.dy * wristVector.dy
+            let magnitudeProduct = sqrt(fingerVector.dx * fingerVector.dx + fingerVector.dy * fingerVector.dy) * sqrt(wristVector.dx * wristVector.dx + wristVector.dy * wristVector.dy)
+            let cosineAngle = dotProduct / magnitudeProduct
+            
+            // Consider the finger as extended if the angle between the vectors is less than 90 degrees.
+            if cosineAngle < cos(.pi / 2.0) {
+                return true
+            }
+            
             return false
         }
-
-        // Get the locations of the points.
-        let fingerPoint = fingerTip.location
-        let mcpPoint = mcpJointPoint.location
         
-        // Determine vectors from the MCP joint to the fingertip and to the wrist.
-        let fingerVector = CGVector(dx: fingerPoint.x - mcpPoint.x, dy: fingerPoint.y - mcpPoint.y)
-        let wristVector = CGVector(dx: wristLocation.x - mcpPoint.x, dy: wristLocation.y - mcpPoint.y)
-        
-        // Calculate the cosine of the angle between the vectors.
-        let dotProduct = fingerVector.dx * wristVector.dx + fingerVector.dy * wristVector.dy
-        let magnitudeProduct = sqrt(fingerVector.dx * fingerVector.dx + fingerVector.dy * fingerVector.dy) * sqrt(wristVector.dx * wristVector.dx + wristVector.dy * wristVector.dy)
-        let cosineAngle = dotProduct / magnitudeProduct
-
-        // Consider the finger as extended if the angle between the vectors is less than 90 degrees.
-        if cosineAngle < cos(.pi / 2.0) {
-            return true
+        private func allFingersExtended(observation: VNHumanHandPoseObservation) -> Bool? {
+            guard let thumbPoints = try? observation.recognizedPoints(.thumb),
+                  let indexPoints = try? observation.recognizedPoints(.indexFinger),
+                  let middlePoints = try? observation.recognizedPoints(.middleFinger),
+                  let ringPoints = try? observation.recognizedPoints(.ringFinger),
+                  let littlePoints = try? observation.recognizedPoints(.littleFinger),
+                  let wristPoints = try? observation.recognizedPoints(.all),
+                  let wrist = wristPoints[.wrist] else {
+                return nil
+            }
+            
+            let thumbExtended = isFingerExtended(fingerTip: thumbPoints[.thumbTip], fingerPoints: thumbPoints, mcpJoint: .thumbMP, wristLocation: wrist.location)
+            let indexExtended = isFingerExtended(fingerTip: indexPoints[.indexTip], fingerPoints: indexPoints, mcpJoint: .indexMCP, wristLocation: wrist.location)
+            let middleExtended = isFingerExtended(fingerTip: middlePoints[.middleTip], fingerPoints: middlePoints, mcpJoint: .middleMCP, wristLocation: wrist.location)
+            let ringExtended = isFingerExtended(fingerTip: ringPoints[.ringTip], fingerPoints: ringPoints, mcpJoint: .ringMCP, wristLocation: wrist.location)
+            let littleExtended = isFingerExtended(fingerTip: littlePoints[.littleTip], fingerPoints: littlePoints, mcpJoint: .littleMCP, wristLocation: wrist.location)
+            
+            return thumbExtended && indexExtended && middleExtended && ringExtended && littleExtended
         }
-        
-        return false
     }
-    
-    private func allFingersExtended(observation: VNHumanHandPoseObservation) -> Bool? {
-        guard let thumbPoints = try? observation.recognizedPoints(.thumb),
-              let indexPoints = try? observation.recognizedPoints(.indexFinger),
-              let middlePoints = try? observation.recognizedPoints(.middleFinger),
-              let ringPoints = try? observation.recognizedPoints(.ringFinger),
-              let littlePoints = try? observation.recognizedPoints(.littleFinger),
-              let wristPoints = try? observation.recognizedPoints(.all),
-              let wrist = wristPoints[.wrist] else {
-            return nil
-        }
-
-        let thumbExtended = isFingerExtended(fingerTip: thumbPoints[.thumbTip], fingerPoints: thumbPoints, mcpJoint: .thumbMP, wristLocation: wrist.location)
-        let indexExtended = isFingerExtended(fingerTip: indexPoints[.indexTip], fingerPoints: indexPoints, mcpJoint: .indexMCP, wristLocation: wrist.location)
-        let middleExtended = isFingerExtended(fingerTip: middlePoints[.middleTip], fingerPoints: middlePoints, mcpJoint: .middleMCP, wristLocation: wrist.location)
-        let ringExtended = isFingerExtended(fingerTip: ringPoints[.ringTip], fingerPoints: ringPoints, mcpJoint: .ringMCP, wristLocation: wrist.location)
-        let littleExtended = isFingerExtended(fingerTip: littlePoints[.littleTip], fingerPoints: littlePoints, mcpJoint: .littleMCP, wristLocation: wrist.location)
-        
-        return thumbExtended && indexExtended && middleExtended && ringExtended && littleExtended
-    }
-    
 }

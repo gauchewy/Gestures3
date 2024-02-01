@@ -67,6 +67,17 @@ struct ContentView: View {
                 }.padding()
                 .navigationBarTitleDisplayMode(.inline)
                 
+                NavigationLink(destination: SlideButtonsView()) {
+                    Text("Slide Buttons")
+                        .font(.headline)
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .padding()
+                        .foregroundColor(.white)
+                        .background(Color.green)
+                        .cornerRadius(10)
+                }.padding()
+                .navigationBarTitleDisplayMode(.inline)
+                
                 Spacer()
 
                 NavigationLink(destination: ScratchView()) {

@@ -39,43 +39,52 @@ struct SlideButtonsView: View {
     }
 }
 
-struct ArcView: View {
-    let start: CGPoint
-    let end: CGPoint
-    let radius: CGFloat
-    var body: some View {
-        Path { path in
-            path.move(to: start)
-            path.addArc(center: CGPoint(x: start.x, y: (start.y + end.y) / 2), radius: radius, startAngle: .degrees(-90), endAngle: .degrees(90), clockwise: false)
-            path.addLine(to: end)
-        }
-        .stroke(Color.green, lineWidth: 2)
+struct FollowEffect: GeometryEffect {
+    var pct: CGFloat
+    let path: Path
+
+    var animatableData: CGFloat {
+        get { pct }
+        set { pct = newValue }
+    }
+
+    func effectValue(size: CGSize) -> ProjectionTransform {
+        let pathTrimmed = path.trimmedPath(from: 0, to: pct)
+        let pt = pathTrimmed.currentPoint ?? .zero
+        return ProjectionTransform(CGAffineTransform(translationX: pt.x - size.width / 2, y: pt.y - size.height / 2))
     }
 }
 
 struct DragGestureView: View {
-    let radius: CGFloat = 60
-    @State private var animate = false
-    
+    @State private var flag = false
+
+    func createPath(index: Int) -> Path {
+        Path { path in
+            path.addArc(center: CGPoint(x: 30, y: 40),
+                        radius: 70,
+                        startAngle: .degrees(-90),
+                        endAngle: .degrees(90),
+                        clockwise: index % 2 == 0)
+        }
+    }
+
     var body: some View {
         VStack {
-            ArcView(start: CGPoint(x: UIScreen.main.bounds.width / 2 - radius, y: 70), end: CGPoint(x: UIScreen.main.bounds.width / 2 + radius, y: 80), radius: radius)
-            VStack {
-                ForEach(0..<4) { index in
-                    Circle()
-                        .fill(index % 2 == 0 ? Color.red : Color.blue)
-                        .frame(width: 50, height: 50)
-                        .offset(x: animate ? (index % 2 == 0 ? radius : -radius) : 0)
-                        .animation(Animation.linear(duration: 2).repeatForever(autoreverses: true), value: animate)
-                        .onAppear {
-                            self.animate = true
+            ForEach(0..<4) { index in
+                Circle()
+                    .fill(index % 2 == 0 ? Color.red : Color.blue)
+                    .frame(width: 50, height: 50)
+                    .modifier(FollowEffect(pct: self.flag ? CGFloat(3) / 4.0 : 0, path: self.createPath(index: index)))
+                    .onAppear {
+                        withAnimation(Animation.linear(duration: 1.0).repeatForever(autoreverses: true)) {
+                            self.flag = true
                         }
-                }
+                    }
+                    .padding()
             }
         }
     }
 }
-
 
 struct DragGestureView_Previews: PreviewProvider {
     static var previews: some View {

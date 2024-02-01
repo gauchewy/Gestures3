@@ -17,7 +17,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     var onHandPoseDetected: (([VNHumanHandPoseObservation]) -> Void)?
     var lastInterlaceDetectionTime: Date? = nil
     var lastBinocularsDetectionTime: Date? = nil
-    var delayTime: Double = 0.5
+    var delayTime: Double = 1.0
     private var noObservationsTriggered = false
     let gestureTimeoutInterval: TimeInterval = 0.0
     let complete: (Bool) -> Void
@@ -123,33 +123,6 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
                     self.lastInterlaceDetectionTime = Date()
                     self.complete(true)
                 }
-                
-                // WAVE
-                if self.selectedOption == .wave {
-                    if observations.count == 2 {
-                        for (index, observation) in observations.enumerated() {
-                            
-                            // check if hand is extended
-                            guard let handExtended = self.allFingersExtended(observation: observation) else {
-                                DispatchQueue.main.async {
-                                    self.complete(false)
-                                }
-                                return
-                            }
-                            if !handExtended {
-                                DispatchQueue.main.async {
-                                    self.complete(false)
-                                    return
-                                }
-                            }
-                            DispatchQueue.main.async {
-                                self.complete(true)
-                                return
-                            
-                        }
-                    }
-                }
-                        
                 if predictedLabel == "Background" && confidence >= 0.9 {
                     self.complete(false)
                 }
@@ -225,55 +198,5 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         }
     }
     
-    private func isFingerExtended(fingerTip: VNRecognizedPoint?,
-                                  fingerPoints: [VNHumanHandPoseObservation.JointName : VNRecognizedPoint],
-                                  mcpJoint: VNHumanHandPoseObservation.JointName,
-                                  wristLocation: CGPoint) -> Bool {
-        // Ensure the fingertip and the MCP joint points are recognized.
-        guard let fingerTip = fingerTip,
-              let mcpJointPoint = fingerPoints[mcpJoint] else {
-            return false
-        }
-
-        // Get the locations of the points.
-        let fingerPoint = fingerTip.location
-        let mcpPoint = mcpJointPoint.location
-        
-        // Determine vectors from the MCP joint to the fingertip and to the wrist.
-        let fingerVector = CGVector(dx: fingerPoint.x - mcpPoint.x, dy: fingerPoint.y - mcpPoint.y)
-        let wristVector = CGVector(dx: wristLocation.x - mcpPoint.x, dy: wristLocation.y - mcpPoint.y)
-        
-        // Calculate the cosine of the angle between the vectors.
-        let dotProduct = fingerVector.dx * wristVector.dx + fingerVector.dy * wristVector.dy
-        let magnitudeProduct = sqrt(fingerVector.dx * fingerVector.dx + fingerVector.dy * fingerVector.dy) * sqrt(wristVector.dx * wristVector.dx + wristVector.dy * wristVector.dy)
-        let cosineAngle = dotProduct / magnitudeProduct
-
-        // Consider the finger as extended if the angle between the vectors is less than 90 degrees.
-        if cosineAngle < cos(.pi / 2.0) {
-            return true
-        }
-        
-        return false
     }
-    
-    private func allFingersExtended(observation: VNHumanHandPoseObservation) -> Bool? {
-        guard let thumbPoints = try? observation.recognizedPoints(.thumb),
-              let indexPoints = try? observation.recognizedPoints(.indexFinger),
-              let middlePoints = try? observation.recognizedPoints(.middleFinger),
-              let ringPoints = try? observation.recognizedPoints(.ringFinger),
-              let littlePoints = try? observation.recognizedPoints(.littleFinger),
-              let wristPoints = try? observation.recognizedPoints(.all),
-              let wrist = wristPoints[.wrist] else {
-            return nil
-        }
 
-        let thumbExtended = isFingerExtended(fingerTip: thumbPoints[.thumbTip], fingerPoints: thumbPoints, mcpJoint: .thumbMP, wristLocation: wrist.location)
-        let indexExtended = isFingerExtended(fingerTip: indexPoints[.indexTip], fingerPoints: indexPoints, mcpJoint: .indexMCP, wristLocation: wrist.location)
-        let middleExtended = isFingerExtended(fingerTip: middlePoints[.middleTip], fingerPoints: middlePoints, mcpJoint: .middleMCP, wristLocation: wrist.location)
-        let ringExtended = isFingerExtended(fingerTip: ringPoints[.ringTip], fingerPoints: ringPoints, mcpJoint: .ringMCP, wristLocation: wrist.location)
-        let littleExtended = isFingerExtended(fingerTip: littlePoints[.littleTip], fingerPoints: littlePoints, mcpJoint: .littleMCP, wristLocation: wrist.location)
-        
-        return thumbExtended && indexExtended && middleExtended && ringExtended && littleExtended
-    }
-    
-}

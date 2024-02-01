@@ -12,12 +12,14 @@ import CoreML
 
 class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     
-    var gestureModel: VNCoreMLModel!
+    var gestureModel: GESTURES31!
     var selectedOption: SelectedOption?
     var onHandPoseDetected: (([VNHumanHandPoseObservation]) -> Void)?
     var lastInterlaceDetectionTime: Date? = nil
     var lastBinocularsDetectionTime: Date? = nil
-    let gestureTimeoutInterval: TimeInterval = 0.5
+    var delayTime: Double = 1.0
+    private var noObservationsTriggered = false
+    let gestureTimeoutInterval: TimeInterval = 0.0
     let complete: (Bool) -> Void
 
     init(selectedOption: SelectedOption, completion: @escaping (Bool) -> Void) {
@@ -46,6 +48,8 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         // Load your VNCoreMLModel here
         let config = MLModelConfiguration()
         config.computeUnits = .all
+        
+        gestureModel = loadModel()
        
         setupVision()
         addCameraInput()
@@ -65,46 +69,74 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
 
     
     private func setupVision() {
-        let handPoseRequest = VNDetectHumanHandPoseRequest { [weak self] request, error in
+
+        // Completion handler
+        let handler: ([VNHumanHandPoseObservation]) -> Void = { observations in
+            
+            // Reset the no observations trigger
+            self.noObservationsTriggered = false
+
+            if !observations.isEmpty {
+                guard let keypointsMultiArray = try? observations[0].keypointsMultiArray() else {
+                    print("Failed to create keypointsMultiArray")
+                    self.complete(false)
+                    return
+                }
+            } else {
+                print("No observations available")
+                if (!self.noObservationsTriggered){
+                    self.noObservationsTriggered = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + self.delayTime) { [weak self] in  // Change delay time as needed
+                        if self?.noObservationsTriggered ?? false {
+                            self?.complete(false)
+                        }
+                    }
+                }
+                return
+            }
+
+            guard let keypointsMultiArray = try? observations[0].keypointsMultiArray() else {
+                print("Failed to create keypointsMultiArray")
+                self.complete(false)
+                return
+            }
+
+            guard let predictionOutput = try? self.gestureModel.prediction(poses: keypointsMultiArray) else {
+                print("Failed to make prediction")
+                return
+            }
+
+            let predictedLabel = predictionOutput.label // No need for optional binding
+            guard let confidence = predictionOutput.labelProbabilities[predictedLabel] else {
+                print("Unable to retrieve confidence for \(predictedLabel)")
+                return
+            }
+
+            print("PREDICTION: \(predictedLabel) \(confidence)")
+
+            DispatchQueue.main.async {
+                if self.selectedOption == .binoculars && predictedLabel == "Binoculars" && confidence >= 0.9 {
+                    self.lastBinocularsDetectionTime = Date()
+                    self.complete(true)
+                }
+                if self.selectedOption == .interlace && predictedLabel == "InterlaceFingers" && confidence >= 0.9 {
+                    self.lastInterlaceDetectionTime = Date()
+                    self.complete(true)
+                }
+                if predictedLabel == "Background" && confidence >= 0.9 {
+                    self.complete(false)
+                }
+            }
+        }
+
+        // Define hand pose request
+        let handPoseRequest = VNDetectHumanHandPoseRequest(completionHandler: {(request, error) in
             guard let observations = request.results as? [VNHumanHandPoseObservation] else {
                 return print("Error: \(error?.localizedDescription ?? "unknown error")")
             }
-            
-            self?.onHandPoseDetected = { observations in
-//                for observation in observations {
-//                    // Process each observation
-//                    print("New hand pose observation detected.")
-//                    print(observation)
-//                }
-            }
-            
-            // Calling the callback function here when observations are ready.
-            self?.onHandPoseDetected?(observations)
-            
-//            // WAVE
-//            if self?.selectedOption == .wave {
-//        
-//            }
-//            
-//            // BINOCULARS -- WORKS
-//            if self?.selectedOption == .binoculars {
-//                
-//            }
-//                        
-//            
-//            // HAND CLASP
-//            if self?.selectedOption == .handClasp {
-//             
-//            }
-//        
-//                
-//
-//            // INTERLACE
-//            if self?.selectedOption == .interlace {
-//
-//            }
-          
-        }
+            handler(observations)
+        })
+
         self.requests.append(handPoseRequest)
     }
     
@@ -143,6 +175,15 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         
     }
     
+    func loadModel() -> GESTURES31 {
+        let config = MLModelConfiguration()
+        guard let model = try? GESTURES31(configuration: config) else {
+            fatalError("Failed to load the GESTURES31 model")
+        }
+        return model
+    }
+    
+    
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
@@ -155,70 +196,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
             print("Failed to perform image request handler: \(error)")
             return
         }
-
-        guard let results = self.requests[0].results as? [VNHumanHandPoseObservation] else {
-            return
-        }
-
-        for observation in results {
-            guard let keypointsMultiArray = try? observation.keypointsMultiArray() else {
-                print("Failed to create keypointsMultiArray")
-                continue
-            }
-
-            // Create an instance of your model
-            let config = MLModelConfiguration()
-            guard let model = try? Gestures3(configuration: config) else {
-                print("Failed to create Gestures3 model")
-                return
-            }
-
-            // Perform prediction using your model.
-            guard let predictionOutput = try? model.prediction(poses: keypointsMultiArray) else {
-                print("Failed to make prediction")
-                return
-            }
-
-            // Perform actions based on the used model's prediction output.
-            // Note: this prediction may differ based on your model.
-            let predictedLabel = predictionOutput.label
-            let confidence = predictionOutput.labelProbabilities[predictionOutput.label]!
-            
-            print("PREDICTION: \(predictedLabel) \(confidence)4")
-            
-            if predictedLabel == "Background" && confidence >= 0.9 {
-                DispatchQueue.main.async {
-                    self.complete(false)
-                }
-            }
-            
-            // UNSURE ABOUT THIS...need to look over
-            DispatchQueue.main.async {
-                
-                if self.selectedOption == .binoculars && predictedLabel == "Binoculars" && confidence >= 0.50 {
-                      self.lastBinocularsDetectionTime = Date()
-                      self.complete(true)
-                    } else {
-                      // Check if specific pose hasn't been seen for a specified time interval
-                      if let lastDetectionTime = self.lastBinocularsDetectionTime,
-                        lastDetectionTime.timeIntervalSinceNow < -self.gestureTimeoutInterval {
-                        self.complete(false)
-                      }
-                    }
-
-                if self.selectedOption == .interlace && predictedLabel == "InterlaceFingers" && confidence >= 0.95 {
-                     self.lastInterlaceDetectionTime = Date()
-                     self.complete(true)
-                   } else {
-                     // Check if specific pose hasn't been seen for a specified time interval
-                     if let lastDetectionTime = self.lastInterlaceDetectionTime,
-                       lastDetectionTime.timeIntervalSinceNow < -self.gestureTimeoutInterval {
-                       self.complete(false)
-                     }
-                   }
-                
-                 }
-            
-        }
     }
-}
+    
+    }
+

@@ -23,16 +23,24 @@ struct TaskMainView: View {
     }
     
     
-    
     var body: some View {
-        VStack {
             NavigationView {
                 VStack {
-                    if currentIndex < onGestures.count {
-                        gestureView(for: onGestures[currentIndex])
-                    } else if currentIndex - onGestures.count < offGestures.count {
-                        gestureView(for: offGestures[currentIndex - onGestures.count])
+                    if type.first == "onGestures" {
+                        if currentIndex < onGestures.count {
+                            gestureView(for: onGestures[currentIndex])
+                        } else if currentIndex < onGestures.count + offGestures.count {
+                            gestureView(for: offGestures[currentIndex - onGestures.count])
+                        }
                     } else {
+                        if currentIndex < offGestures.count {
+                            gestureView(for: offGestures[currentIndex])
+                        } else if currentIndex < onGestures.count + offGestures.count {
+                            gestureView(for: onGestures[currentIndex - offGestures.count])
+                        }
+                    }
+                    
+                    if currentIndex >= onGestures.count + offGestures.count {
                         Text("All tasks completed")
                     }
                 }
@@ -46,10 +54,11 @@ struct TaskMainView: View {
                 }
             }
         }
-    }
-        
+
+
         func gestureView(for gesture: String) -> some View {
             switch gesture {
+                // on gestures
                case "tap 1":
                    return AnyView(TapButtonsViewV1(onComplete: moveToNextGesture))
                case "tap 2":
@@ -59,16 +68,28 @@ struct TaskMainView: View {
                case "slide":
                     return AnyView(SlideButtonsView(onComplete: moveToNextGesture))
                
+                // off gestures
+               case "interlace":
+                return AnyView(OtherView(selection:.interlace))
+            case "binoculars":
+                return AnyView(OtherView(selection:.binoculars))
+            case "wave":
+                return AnyView(OtherView(selection:.wave))
+            case "frame":
+                return AnyView(OtherView(selection: .handClasp))
+                
+                
                default:
                    return AnyView(Text("Unknown Gesture"))
                }
         }
-        func moveToNextGesture() {
-            if currentIndex < onGestures.count + offGestures.count - 1 {
-                currentIndex += 1
-                isScreenshotTaken = false
-            }
-        }
+
+    func moveToNextGesture() {
+           if currentIndex < onGestures.count + offGestures.count - 1 {
+               currentIndex += 1
+               isScreenshotTaken = false
+           }
+       }
     }
 #Preview {
     TaskMainView()

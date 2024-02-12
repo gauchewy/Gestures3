@@ -17,7 +17,9 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     var onHandPoseDetected: (([VNHumanHandPoseObservation]) -> Void)?
     var lastInterlaceDetectionTime: Date? = nil
     var lastBinocularsDetectionTime: Date? = nil
-    var delayTime: Double = 1.0
+    var lastSquareDetectionTime: Date? = nil
+    var lastWaveDetectionTime: Date? = nil
+    var delayTime: Double = 2.0
     private var noObservationsTriggered = false
     let gestureTimeoutInterval: TimeInterval = 0.0
     let complete: (Bool) -> Void
@@ -121,6 +123,16 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
                 }
                 if self.selectedOption == .interlace && predictedLabel == "InterlaceFingers" && confidence >= 0.9 {
                     self.lastInterlaceDetectionTime = Date()
+                    self.complete(true)
+                }
+                
+                if self.selectedOption == .square && predictedLabel == "Square" && confidence >= 0.9 {
+                    self.lastSquareDetectionTime = Date()
+                    self.complete(true)
+                }
+                
+                if self.selectedOption == .wave && predictedLabel == "Wave" && confidence >= 0.9 {
+                    self.lastWaveDetectionTime = Date()
                     self.complete(true)
                 }
                 if predictedLabel == "Background" && confidence >= 0.9 {

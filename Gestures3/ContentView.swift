@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum SelectedOption: String {
-    case handClasp = "Hand Clasp"
+    case square = "Square"
     case binoculars = "Binoculars"
     case wave = "Wave"
     case interlace = "Interlace"
@@ -139,7 +139,7 @@ struct ContentView: View {
 }
 
 struct ButtonGroupView: View {
-    let actions: [SelectedOption] = [.handClasp, .binoculars, .wave, .interlace]
+    let actions: [SelectedOption] = [.square, .binoculars, .wave, .interlace]
 
     var body: some View {
         VStack {

@@ -76,7 +76,7 @@ struct TaskMainView: View {
             case "wave":
                 return AnyView(OtherView(selection:.wave))
             case "frame":
-                return AnyView(OtherView(selection: .handClasp))
+                return AnyView(OtherView(selection:.square))
                 
                 
                default:

@@ -11,6 +11,8 @@ struct TapButtonsViewV1: View {
     @State var viewCleared: Bool = false
     let buttonRadius = 60.0
     let vShape = [200.0, 100.0, 30.0]
+    
+    var onComplete: () -> Void
 
     var body: some View {
         GeometryReader { geometry in
@@ -131,6 +133,8 @@ struct StackButtons: View {
 
 struct TapButtonsViewV1_Previews: PreviewProvider {
     static var previews: some View {
-        TapButtonsViewV1()
+        TapButtonsViewV1(onComplete: {
+            print("completed")
+        })
     }
 }

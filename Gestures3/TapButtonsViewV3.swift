@@ -11,6 +11,8 @@ import SwiftUI
 
 struct TapButtonsViewV3: View {
     @State var viewCleared: Bool = false
+    
+    var onComplete: () -> Void
 
     var body: some View {
         GeometryReader { geometry in
@@ -91,7 +93,9 @@ struct StackButtons3: View {
 
 struct TapButtonsViewV3_Previews: PreviewProvider {
     static var previews: some View {
-        TapButtonsViewV3()
+        TapButtonsViewV3(onComplete: {
+            print("completed")
+        })
     }
 }
 

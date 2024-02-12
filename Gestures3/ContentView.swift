@@ -19,99 +19,120 @@ struct ContentView: View {
     @State private var isSettingsViewShown = false
 
     var body: some View {
-        NavigationView {
-            VStack {
-                Spacer()
 
-                Text("Welcome to Justure")
-                    .font(.largeTitle)
-                    .bold()
-                    .padding()
-
-                Spacer()
-
-                ButtonGroupView()
-
-                Spacer()
-                
-                NavigationLink(destination: TapButtonsViewV1()) {
-                    Text("Tap Buttons One")
-                        .font(.headline)
-                        .frame(minWidth: 0, maxWidth: .infinity)
+            NavigationView {
+                ScrollView{
+                VStack {
+                    Spacer()
+                    
+                    Text("Welcome to Justure")
+                        .font(.largeTitle)
+                        .bold()
                         .padding()
-                        .foregroundColor(.white)
-                        .background(Color.green)
-                        .cornerRadius(10)
-                }.padding()
-                .navigationBarTitleDisplayMode(.inline)
-                
-                NavigationLink(destination: TapButtonsViewV2()) {
-                    Text("Tap Buttons Two")
-                        .font(.headline)
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .padding()
-                        .foregroundColor(.white)
-                        .background(Color.green)
-                        .cornerRadius(10)
-                }.padding()
-                .navigationBarTitleDisplayMode(.inline)
-                
-                NavigationLink(destination: TapButtonsViewV3()) {
-                    Text("Tap Buttons Three")
-                        .font(.headline)
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .padding()
-                        .foregroundColor(.white)
-                        .background(Color.green)
-                        .cornerRadius(10)
-                }.padding()
-                .navigationBarTitleDisplayMode(.inline)
-                
-                NavigationLink(destination: SlideButtonsView()) {
-                    Text("Slide Buttons")
-                        .font(.headline)
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .padding()
-                        .foregroundColor(.white)
-                        .background(Color.green)
-                        .cornerRadius(10)
-                }.padding()
-                .navigationBarTitleDisplayMode(.inline)
-                
-                Spacer()
-
-                NavigationLink(destination: ScratchView()) {
-                    Text("iScratch")
-                        .font(.headline)
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .padding()
-                        .foregroundColor(.white)
-                        .background(Color.purple)
-                        .cornerRadius(10)
-                }.padding()
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        HStack {
-                            Button(action: {
-                                isSettingsViewShown = true
-                            }) {
-                                Image(systemName: "gear")
-                                    .font(.title)
+                    
+                    Spacer()
+                    
+                    NavigationLink(destination: TaskMainView()) {
+                        Text("Begin Task 1")
+                            .font(.headline)
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .padding()
+                            .foregroundColor(.white)
+                            .background(Color.yellow)
+                            .cornerRadius(10)
+                    }.padding()
+                    
+                    ButtonGroupView()
+                    
+                    Spacer()
+                    
+                    NavigationLink(destination: TapButtonsViewV1(onComplete: {
+                        print("completed")
+                    })) {
+                        Text("Tap Buttons One")
+                            .font(.headline)
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .padding()
+                            .foregroundColor(.white)
+                            .background(Color.green)
+                            .cornerRadius(10)
+                    }.padding()
+                     .navigationBarTitleDisplayMode(.inline)
+                    
+                    NavigationLink(destination: TapButtonsViewV2(onComplete: {
+                        print("completed")
+                    })) {
+                        Text("Tap Buttons Two")
+                            .font(.headline)
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .padding()
+                            .foregroundColor(.white)
+                            .background(Color.green)
+                            .cornerRadius(10)
+                    }.padding()
+                        .navigationBarTitleDisplayMode(.inline)
+                    
+                    NavigationLink(destination: TapButtonsViewV3(onComplete: {
+                        print("completed")
+                    })) {
+                        Text("Tap Buttons Three")
+                            .font(.headline)
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .padding()
+                            .foregroundColor(.white)
+                            .background(Color.green)
+                            .cornerRadius(10)
+                    }.padding()
+                        .navigationBarTitleDisplayMode(.inline)
+                    
+                    NavigationLink(destination: SlideButtonsView(onComplete: {
+                        print("completed")
+                    })) {
+                        Text("Slide Buttons")
+                            .font(.headline)
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .padding()
+                            .foregroundColor(.white)
+                            .background(Color.green)
+                            .cornerRadius(10)
+                    }.padding()
+                        .navigationBarTitleDisplayMode(.inline)
+                    
+                    Spacer()
+                    
+                    NavigationLink(destination: ScratchView()) {
+                        Text("iScratch")
+                            .font(.headline)
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .padding()
+                            .foregroundColor(.white)
+                            .background(Color.purple)
+                            .cornerRadius(10)
+                    }.padding()
+                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbar {
+                            ToolbarItem(placement: .navigationBarLeading) {
+                                HStack {
+                                    Button(action: {
+                                        isSettingsViewShown = true
+                                    }) {
+                                        Image(systemName: "gear")
+                                            .font(.title)
+                                    }
+                                }
+                            }
+                            ToolbarItem(placement: .principal) {
+                                Text("Justure")
+                                    .font(.headline)
+                                    .foregroundColor(.black)
                             }
                         }
-                    }
-                    ToolbarItem(placement: .principal) {
-                        Text("Justure")
-                            .font(.headline)
-                            .foregroundColor(.black)
-                    }
+                        .sheet(isPresented: $isSettingsViewShown) {
+                            SettingsView()
+                        }
+                    
+                    Spacer()
                 }
-                .sheet(isPresented: $isSettingsViewShown) {
-                    SettingsView()
-                }
-
-                Spacer()
             }
         }
     }

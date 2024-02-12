@@ -17,6 +17,7 @@
 		712255E52AF4154B00D719B7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255E42AF4154B00D719B7 /* ViewController.swift */; };
 		712255E72AF4170800D719B7 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255E62AF4170800D719B7 /* ImagePicker.swift */; };
 		712255EB2AF41C4C00D719B7 /* TapButtonsViewV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255EA2AF41C4C00D719B7 /* TapButtonsViewV1.swift */; };
+		71B4171E2B7A83B7001377FA /* TaskMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B4171D2B7A83B7001377FA /* TaskMainView.swift */; };
 		71C926EC2B60B37700A7FA35 /* TapButtonsViewV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C926EB2B60B37700A7FA35 /* TapButtonsViewV3.swift */; };
 		71CDEC862B6C0E5600D00099 /* SlideButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CDEC852B6C0E5600D00099 /* SlideButtonsView.swift */; };
 /* End PBXBuildFile section */
@@ -33,6 +34,7 @@
 		712255E42AF4154B00D719B7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		712255E62AF4170800D719B7 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		712255EA2AF41C4C00D719B7 /* TapButtonsViewV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapButtonsViewV1.swift; sourceTree = "<group>"; };
+		71B4171D2B7A83B7001377FA /* TaskMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskMainView.swift; sourceTree = "<group>"; };
 		71C926EB2B60B37700A7FA35 /* TapButtonsViewV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapButtonsViewV3.swift; sourceTree = "<group>"; };
 		71CDEC852B6C0E5600D00099 /* SlideButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideButtonsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -68,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				712255D42AF414DF00D719B7 /* ContentView.swift */,
+				71B4171D2B7A83B7001377FA /* TaskMainView.swift */,
 				712255EA2AF41C4C00D719B7 /* TapButtonsViewV1.swift */,
 				7108E8912B6071DD00363B88 /* TapButtonsViewV2.swift */,
 				71C926EB2B60B37700A7FA35 /* TapButtonsViewV3.swift */,
@@ -162,6 +165,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7108E8922B6071DD00363B88 /* TapButtonsViewV2.swift in Sources */,
+				71B4171E2B7A83B7001377FA /* TaskMainView.swift in Sources */,
 				712255E52AF4154B00D719B7 /* ViewController.swift in Sources */,
 				712255D52AF414DF00D719B7 /* ContentView.swift in Sources */,
 				712255D32AF414DF00D719B7 /* Gestures3App.swift in Sources */,

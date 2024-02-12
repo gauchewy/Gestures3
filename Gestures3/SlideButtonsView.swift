@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SlideButtonsView: View {
     @State var viewCleared: Bool = false
+    
+    var onComplete: () -> Void
 
     var body: some View {
         GeometryReader { geometry in
@@ -100,5 +102,7 @@ struct DragGestureView_Previews: PreviewProvider {
 }
 
 #Preview {
-    SlideButtonsView()
+    SlideButtonsView(onComplete: {
+        print("completed")
+    })
 }

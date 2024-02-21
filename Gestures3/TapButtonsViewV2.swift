@@ -6,6 +6,8 @@ struct TapButtonsViewV2: View {
     @State var viewCleared: Bool = false
     let buttonRadius = 60.0
     let vShape = [30.0, 100.0, 200.0]
+    
+    let beigeColor = Color(red: 0.96, green: 0.96, blue: 0.86)
 
     var onComplete: () -> Void
 
@@ -20,7 +22,7 @@ struct TapButtonsViewV2: View {
                     
                     if !viewCleared {
                         Rectangle()
-                            .fill(Color.pink)
+                            .fill(beigeColor)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .ignoresSafeArea()
                     }

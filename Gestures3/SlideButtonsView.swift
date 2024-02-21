@@ -10,6 +10,8 @@ import SwiftUI
 struct SlideButtonsView: View {
     @State var viewCleared: Bool = false
     
+    let beigeColor = Color(red: 0.96, green: 0.96, blue: 0.86)
+    
     var onComplete: () -> Void
 
     var body: some View {
@@ -23,7 +25,7 @@ struct SlideButtonsView: View {
                     
                     if !viewCleared {
                         Rectangle()
-                            .fill(Color.purple)
+                            .fill(beigeColor)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .ignoresSafeArea()
                     }

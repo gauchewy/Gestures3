@@ -26,6 +26,11 @@ struct CameraView: UIViewControllerRepresentable {
 struct OtherView: View {
     let selection: SelectedOption
     @State var viewCleared: Bool = false
+    @State private var confLevel: Double = 0.5 // Default value
+    @State private var timeRemaining = 180 // 180 seconds for 3 minutes
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State private var resetCounter = 0 // Counter for tracking viewCleared resets
+    @State private var lastResetTime = Date()
     
     let beigeColor = Color(red: 0.96, green: 0.96, blue: 0.86)
     
@@ -39,8 +44,6 @@ struct OtherView: View {
                return "hand drawings-04"
            case .interlace:
                return "hand drawings-03"
-           default:
-               return "hand drawings-04"
            }
        }
     
@@ -49,7 +52,33 @@ struct OtherView: View {
         
         VStack{
             
-            //Text("You selected \(selection.rawValue)")
+            HStack{
+                
+                Text(String(format: "%02d:%02d", timeRemaining / 60, timeRemaining % 60) + " remaining")
+                                .font(.headline)
+                                .padding()
+                                .onReceive(timer) { _ in
+                                    if self.timeRemaining > 0 {
+                                        self.timeRemaining -= 1
+                                    }
+                                }
+                                .onAppear {
+                                    self.timeRemaining = 180 // Reset the timer to 3 minutes
+                                }
+                
+                Text("Reset Count: \(resetCounter)")
+                               .font(.headline)
+                               .padding()
+            }
+            
+            VStack{
+                Slider(value: $confLevel, in: 0...1, step: 0.1)
+                    .padding()
+                Text("Confidence Level: \(confLevel, specifier: "%.1f")")
+                    .font(.subheadline)
+            }
+            
+
             
             ZStack{
                 Image("treehouse")
@@ -59,22 +88,21 @@ struct OtherView: View {
                 
                 
             if !viewCleared {
-                                VStack{
-                                    ZStack{
-                                        Rectangle()
-                                            .fill(beigeColor)
-                                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                            .ignoresSafeArea()
-                                        
-                                        Image(imageName)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .padding()
-                                    }
-                                }
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .ignoresSafeArea()
-                            }
+            
+                ZStack{
+                    Rectangle()
+                        .fill(beigeColor)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .ignoresSafeArea()
+                    
+                    Image(imageName)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding()
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea()
+                }
 
                 //entire vstack is the camera
                 VStack {
@@ -90,6 +118,12 @@ struct OtherView: View {
                     }
                 }
                 //camera ends
+            }
+            .onChange(of: viewCleared) { newValue in
+                if !newValue && Date().timeIntervalSince(lastResetTime) >= 1 {
+                    lastResetTime = Date()
+                    resetCounter += 1
+                }
             }
         }
     }

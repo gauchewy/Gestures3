@@ -12,6 +12,8 @@ struct TapButtonsViewV1: View {
     let buttonRadius = 60.0
     let vShape = [200.0, 100.0, 30.0]
     
+    let beigeColor = Color(red: 0.96, green: 0.96, blue: 0.86)
+    
     var onComplete: () -> Void
 
     var body: some View {
@@ -25,7 +27,7 @@ struct TapButtonsViewV1: View {
                     
                     if !viewCleared {
                         Rectangle()
-                            .fill(Color.green)
+                            .fill(beigeColor)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .ignoresSafeArea()
                     }
@@ -52,7 +54,7 @@ struct StackButtons: View {
     let buttonRadius: Double
     let vShape: [Double]
     let growRatio = 1.09
-    let duration = 1.5
+    let timeInterval = 1.0
     @State private var highlightedIndex = 0
     @State private var firstButtonPressed = false
     @State private var secondButtonPressed = false
@@ -98,7 +100,7 @@ struct StackButtons: View {
             }
         }
         .onAppear {
-            Timer.scheduledTimer(withTimeInterval: duration, repeats: true) { _ in
+            Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true) { _ in
                 // Animate the index increasing
                 withAnimation {
                     if highlightedIndex < vShape.count - 1 {
@@ -120,7 +122,7 @@ struct StackButtons: View {
         }
 
         // if the press lasts longer than the duration variable, set viewCleared to false
-        if Date().timeIntervalSince(lastPressedTime) > duration {
+        if Date().timeIntervalSince(lastPressedTime) > timeInterval {
             print("press lasted longer than dur")
             viewCleared = false
         }

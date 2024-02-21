@@ -12,6 +12,8 @@ import SwiftUI
 struct TapButtonsViewV3: View {
     @State var viewCleared: Bool = false
     
+    let beigeColor = Color(red: 0.96, green: 0.96, blue: 0.86)
+    
     var onComplete: () -> Void
 
     var body: some View {
@@ -25,7 +27,7 @@ struct TapButtonsViewV3: View {
                     
                     if !viewCleared {
                         Rectangle()
-                            .fill(Color.yellow)
+                            .fill(beigeColor)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .ignoresSafeArea()
                     }
@@ -50,6 +52,7 @@ struct StackButtons3: View {
     let vShape = [0.0, 0.0] // Two rows
     let hButtons = ["1", "2", "3"]
     let growRatio = 1.00
+    let timeInterval = 1.0
     @State private var highlightedIndexes: [Int]
 
     init(width: CGFloat, height: CGFloat) {
@@ -78,7 +81,7 @@ struct StackButtons3: View {
             }
         }
         .onAppear {
-            Timer.scheduledTimer(withTimeInterval: 0.4, repeats: true) { _ in
+            Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true) { _ in
                 withAnimation {
                     // Update highlighted indexes for each row
                     highlightedIndexes[0] = (highlightedIndexes[0] + 1) % hButtons.count // Move forward for the first row

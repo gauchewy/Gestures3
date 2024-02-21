@@ -25,8 +25,8 @@ struct CameraView: UIViewControllerRepresentable {
 
 struct OtherView: View {
     let selection: SelectedOption
-    
     var onComplete: (([String: Any]) -> Void)? // for saving participant data 
+    var resetState: () -> Void = {}
     
     @State var viewCleared: Bool = false
     @State private var confLevel: Double = 0.5 // Default value
@@ -127,6 +127,11 @@ struct OtherView: View {
                     lastResetTime = Date()
                     resetCounter += 1
                 }
+            }
+            .onAppear(){
+                resetCounter = 0
+                timeRemaining = 180
+                resetState()
             }
         }
     }

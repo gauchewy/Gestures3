@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TaskMainView: View {
-    
+    @StateObject private var gestureState = GestureState()
     @State private var type = ["onGestures", "offGestures"]
     @State private var onGestures = ["tap 1", "tap 2", "tap 3", "slide"]
     @State private var offGestures = ["interlace", "binoculars", "wave", "frame"]
@@ -19,6 +19,8 @@ struct TaskMainView: View {
     @State private var participantDataList: [ParticipantData] = []
     
     @State private var isParticipantNumberEntered: Bool = false
+    
+    @State private var resetKey = UUID()
 
     
     init() {
@@ -110,21 +112,21 @@ struct TaskMainView: View {
                
                 // off gestures
                case "interlace":
-                return AnyView(OtherView(selection:.interlace, onComplete: { data in
-                    saveParticipantData(data)
-                }))
+                return AnyView(OtherView(selection: .interlace, onComplete: { data in
+                                    saveParticipantData(data)
+                                }).id(resetKey))
             case "binoculars":
-                return AnyView(OtherView(selection:.binoculars, onComplete: { data in
-                    saveParticipantData(data)
-                }))
+                return AnyView(OtherView(selection: .binoculars, onComplete: { data in
+                                    saveParticipantData(data)
+                                }).id(resetKey))
             case "wave":
-                return AnyView(OtherView(selection:.wave, onComplete: { data in
-                    saveParticipantData(data)
-                }))
+                return AnyView(OtherView(selection: .wave, onComplete: { data in
+                                    saveParticipantData(data)
+                                }).id(resetKey))
             case "frame":
-                return AnyView(OtherView(selection:.frame,  onComplete: { data in
-                    saveParticipantData(data)
-                }))
+                return AnyView(OtherView(selection: .frame, onComplete: { data in
+                                    saveParticipantData(data)
+                                }).id(resetKey))
                 
                 
                default:
@@ -152,6 +154,7 @@ struct TaskMainView: View {
            if currentIndex < onGestures.count + offGestures.count - 1 {
                currentIndex += 1
                isScreenshotTaken = false
+               resetKey = UUID()
            }
        }
     }

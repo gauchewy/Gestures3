@@ -17,6 +17,8 @@ struct TaskMainView: View {
     
     @State private var currentParticipantNumber = 1
     @State private var participantDataList: [ParticipantData] = []
+    
+    @State private var isParticipantNumberEntered: Bool = false
 
     
     init() {
@@ -27,37 +29,71 @@ struct TaskMainView: View {
     
     
     var body: some View {
-            NavigationView {
-                VStack {
-                    if type.first == "onGestures" {
-                        if currentIndex < onGestures.count {
-                            gestureView(for: onGestures[currentIndex])
-                        } else if currentIndex < onGestures.count + offGestures.count {
-                            gestureView(for: offGestures[currentIndex - onGestures.count])
-                        }
-                    } else {
-                        if currentIndex < offGestures.count {
-                            gestureView(for: offGestures[currentIndex])
-                        } else if currentIndex < onGestures.count + offGestures.count {
-                            gestureView(for: onGestures[currentIndex - offGestures.count])
-                        }
+        
+        NavigationView {
+                   VStack {
+                       if !isParticipantNumberEntered {
+                           participantNumberInputView()
+                       } else {
+                           gestureTaskView()
+                       }
+                   }
+               }
+        
+    }
+    
+    private func participantNumberInputView() -> some View {
+            VStack {
+                Text("Enter Participant ID")
+                    .font(.title)
+                TextField("Enter Participant Number", value: $currentParticipantNumber, formatter: NumberFormatter())
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .keyboardType(.numberPad)
+                    .padding()
+
+                Button("Submit") {
+                    isParticipantNumberEntered = true
+                }
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(8)
+            }
+        }
+    
+    private func gestureTaskView() -> some View {
+        
+        NavigationView {
+            VStack {
+                if type.first == "onGestures" {
+                    if currentIndex < onGestures.count {
+                        gestureView(for: onGestures[currentIndex])
+                    } else if currentIndex < onGestures.count + offGestures.count {
+                        gestureView(for: offGestures[currentIndex - onGestures.count])
                     }
-                    
-                    if currentIndex >= onGestures.count + offGestures.count {
-                        Text("All tasks completed")
+                } else {
+                    if currentIndex < offGestures.count {
+                        gestureView(for: offGestures[currentIndex])
+                    } else if currentIndex < onGestures.count + offGestures.count {
+                        gestureView(for: onGestures[currentIndex - offGestures.count])
                     }
                 }
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.userDidTakeScreenshotNotification)) { _ in
-                    isScreenshotTaken = true
+                
+                if currentIndex >= onGestures.count + offGestures.count {
+                    Text("All tasks completed")
                 }
-                .onChange(of: isScreenshotTaken) { taken in
-                    if taken {
-                        // currently this is the only way to move on 
-                        moveToNextGesture()
-                    }
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.userDidTakeScreenshotNotification)) { _ in
+                isScreenshotTaken = true
+            }
+            .onChange(of: isScreenshotTaken) { taken in
+                if taken {
+                    // currently this is the only way to move on
+                    moveToNextGesture()
                 }
             }
         }
+    }
 
 
         func gestureView(for gesture: String) -> some View {

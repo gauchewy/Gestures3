@@ -8,11 +8,11 @@
 import SwiftUI
 
 enum SelectedOption: String {
-    case square = "Square"
+    case frame = "Frame"
     case binoculars = "Binoculars"
     case wave = "Wave"
-    case interlace = "Interlace"
-    case iscratch = "iScratch"
+    case interlace = "Clasp"
+    //case iscratch = "iScratch"
 }
 
 struct ContentView: View {
@@ -100,16 +100,17 @@ struct ContentView: View {
                     
                     Spacer()
                     
-                    NavigationLink(destination: ScratchView()) {
-                        Text("iScratch")
-                            .font(.headline)
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(Color.purple)
-                            .cornerRadius(10)
-                    }.padding()
-                        .navigationBarTitleDisplayMode(.inline)
+//                    NavigationLink(destination: ScratchView()) {
+//                        Text("iScratch")
+//                            .font(.headline)
+//                            .frame(minWidth: 0, maxWidth: .infinity)
+//                            .padding()
+//                            .foregroundColor(.white)
+//                            .background(Color.purple)
+//                            .cornerRadius(10)
+//                    }.padding()
+//                        .navigationBarTitleDisplayMode(.inline)
+                    
                         .toolbar {
                             ToolbarItem(placement: .navigationBarLeading) {
                                 HStack {
@@ -139,7 +140,7 @@ struct ContentView: View {
 }
 
 struct ButtonGroupView: View {
-    let actions: [SelectedOption] = [.square, .binoculars, .wave, .interlace]
+    let actions: [SelectedOption] = [.frame, .binoculars, .wave, .interlace]
 
     var body: some View {
         VStack {

@@ -108,6 +108,11 @@ struct TaskMainView: View {
                     
                 }
             }
+            .onAppear {
+                        if isPoseDetected && progressMethod == .detectPose {
+                            moveToNextGesture()
+                        }
+                    }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.userDidTakeScreenshotNotification)) { _ in
                 isScreenshotTaken = true
             }
@@ -118,8 +123,10 @@ struct TaskMainView: View {
             }
             .onChange(of: isPoseDetected) { detected in
                 if detected && progressMethod == .detectPose {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         moveToNextGesture()
+                        //reset it
+                        isPoseDetected = false
                     }
                 }
             }
@@ -143,19 +150,23 @@ struct TaskMainView: View {
             case "interlace":
                 return AnyView(OtherView(selection: .interlace, onComplete: { data in
                     saveParticipantData(data)
-                }).id(resetKey))
+                }, isPoseDetected: $isPoseDetected).id(resetKey))
+                
             case "binoculars":
                 return AnyView(OtherView(selection: .binoculars, onComplete: { data in
                     saveParticipantData(data)
-                }).id(resetKey))
+                }, isPoseDetected: $isPoseDetected).id(resetKey))
+                
             case "wave":
                 return AnyView(OtherView(selection: .wave, onComplete: { data in
                     saveParticipantData(data)
-                }).id(resetKey))
+                }, isPoseDetected: $isPoseDetected).id(resetKey))
+                
             case "frame":
                 return AnyView(OtherView(selection: .frame, onComplete: { data in
                     saveParticipantData(data)
-                }).id(resetKey))
+                }, isPoseDetected: $isPoseDetected).id(resetKey))
+                        
                 
                 
             default:

@@ -25,7 +25,7 @@ struct CameraView: UIViewControllerRepresentable {
 
 struct OtherView: View {
     let selection: SelectedOption
-    var onComplete: (([String: Any]) -> Void)? // for saving participant data 
+    var onComplete: (([String: Any]) -> Void)? // for saving participant data
     var resetState: () -> Void = {}
     
     @State var viewCleared: Bool = false
@@ -34,6 +34,8 @@ struct OtherView: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State private var resetCounter = 0 // Counter for tracking viewCleared resets
     @State private var lastResetTime = Date()
+    
+    @Binding var isPoseDetected: Bool // for option 3
     
     let beigeColor = Color(red: 0.96, green: 0.96, blue: 0.86)
     
@@ -123,11 +125,14 @@ struct OtherView: View {
                 //camera ends
             }
             .onChange(of: viewCleared) { newValue in
-                if !newValue && Date().timeIntervalSince(lastResetTime) >= 1 {
-                    lastResetTime = Date()
-                    resetCounter += 1
-                }
-            }
+                           if newValue {
+                               isPoseDetected = true // Update isPoseDetected when viewCleared changes
+                           }
+                           if !newValue && Date().timeIntervalSince(lastResetTime) >= 1 {
+                               lastResetTime = Date()
+                               resetCounter += 1
+                           }
+                       }
             .onAppear(){
                 resetCounter = 0
                 timeRemaining = 180

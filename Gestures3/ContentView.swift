@@ -17,6 +17,7 @@ enum SelectedOption: String {
 
 struct ContentView: View {
     @State private var isSettingsViewShown = false
+    @State private var isPoseDetected: Bool = false
 
     var body: some View {
 
@@ -42,7 +43,7 @@ struct ContentView: View {
                             .cornerRadius(10)
                     }.padding()
                     
-                    ButtonGroupView()
+                    ButtonGroupView(isPoseDetected: $isPoseDetected)
                     
                     Spacer()
                     
@@ -141,11 +142,12 @@ struct ContentView: View {
 
 struct ButtonGroupView: View {
     let actions: [SelectedOption] = [.frame, .binoculars, .wave, .interlace]
+    @Binding var isPoseDetected: Bool  
 
     var body: some View {
         VStack {
             ForEach(actions, id: \.self) { action in
-                NavigationLink(destination: OtherView(selection: action)) {
+                NavigationLink(destination: OtherView(selection: action, isPoseDetected: $isPoseDetected)) {
                     Text(action.rawValue)
                         .font(.headline)
                         .frame(minWidth: 0, maxWidth: .infinity)

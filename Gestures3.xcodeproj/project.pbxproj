@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		7108E8922B6071DD00363B88 /* TapButtonsViewV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7108E8912B6071DD00363B88 /* TapButtonsViewV2.swift */; };
-		067EE3732B7A88E000B8971F /* GESTURES31.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 067EE3722B7A88E000B8971F /* GESTURES31.mlmodel */; };
 		712255D32AF414DF00D719B7 /* Gestures3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255D22AF414DF00D719B7 /* Gestures3App.swift */; };
 		712255D52AF414DF00D719B7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255D42AF414DF00D719B7 /* ContentView.swift */; };
 		712255D72AF414DF00D719B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 712255D62AF414DF00D719B7 /* Assets.xcassets */; };
@@ -20,12 +19,12 @@
 		712255EB2AF41C4C00D719B7 /* TapButtonsViewV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255EA2AF41C4C00D719B7 /* TapButtonsViewV1.swift */; };
 		71B4171E2B7A83B7001377FA /* TaskMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B4171D2B7A83B7001377FA /* TaskMainView.swift */; };
 		71C926EC2B60B37700A7FA35 /* TapButtonsViewV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C926EB2B60B37700A7FA35 /* TapButtonsViewV3.swift */; };
+		71CA901C2B7BF33800D0C320 /* GESTURES31.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 71CA901B2B7BF33800D0C320 /* GESTURES31.mlmodel */; };
 		71CDEC862B6C0E5600D00099 /* SlideButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CDEC852B6C0E5600D00099 /* SlideButtonsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7108E8912B6071DD00363B88 /* TapButtonsViewV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapButtonsViewV2.swift; sourceTree = "<group>"; };
-		067EE3722B7A88E000B8971F /* GESTURES31.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = GESTURES31.mlmodel; path = ../../../../Desktop/gestures3training/GESTURES31.mlmodel; sourceTree = "<group>"; };
 		712255CF2AF414DF00D719B7 /* Gestures3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gestures3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		712255D22AF414DF00D719B7 /* Gestures3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gestures3App.swift; sourceTree = "<group>"; };
 		712255D42AF414DF00D719B7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -38,6 +37,7 @@
 		712255EA2AF41C4C00D719B7 /* TapButtonsViewV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapButtonsViewV1.swift; sourceTree = "<group>"; };
 		71B4171D2B7A83B7001377FA /* TaskMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskMainView.swift; sourceTree = "<group>"; };
 		71C926EB2B60B37700A7FA35 /* TapButtonsViewV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapButtonsViewV3.swift; sourceTree = "<group>"; };
+		71CA901B2B7BF33800D0C320 /* GESTURES31.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = GESTURES31.mlmodel; sourceTree = "<group>"; };
 		71CDEC852B6C0E5600D00099 /* SlideButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideButtonsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -71,7 +71,7 @@
 		712255D12AF414DF00D719B7 /* Gestures3 */ = {
 			isa = PBXGroup;
 			children = (
-				067EE3722B7A88E000B8971F /* GESTURES31.mlmodel */,
+				71CA901B2B7BF33800D0C320 /* GESTURES31.mlmodel */,
 				712255D42AF414DF00D719B7 /* ContentView.swift */,
 				71B4171D2B7A83B7001377FA /* TaskMainView.swift */,
 				712255EA2AF41C4C00D719B7 /* TapButtonsViewV1.swift */,
@@ -169,8 +169,8 @@
 			files = (
 				7108E8922B6071DD00363B88 /* TapButtonsViewV2.swift in Sources */,
 				71B4171E2B7A83B7001377FA /* TaskMainView.swift in Sources */,
-				067EE3732B7A88E000B8971F /* GESTURES31.mlmodel in Sources */,
 				712255E52AF4154B00D719B7 /* ViewController.swift in Sources */,
+				71CA901C2B7BF33800D0C320 /* GESTURES31.mlmodel in Sources */,
 				712255D52AF414DF00D719B7 /* ContentView.swift in Sources */,
 				712255D32AF414DF00D719B7 /* Gestures3App.swift in Sources */,
 				712255E72AF4170800D719B7 /* ImagePicker.swift in Sources */,
@@ -307,7 +307,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Gestures3/Preview Content\"";
-				DEVELOPMENT_TEAM = 44K4K9XYJ3;
+				DEVELOPMENT_TEAM = PB5KXTJ93P;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "App requires camera usage";
@@ -322,7 +322,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.falseiftrue.Gestures3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.gauchewy.Gestures3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -335,10 +335,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Gestures3/Preview Content\"";
-				DEVELOPMENT_TEAM = 44K4K9XYJ3;
+				DEVELOPMENT_TEAM = PB5KXTJ93P;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "App requires camera usage";
@@ -353,8 +354,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.falseiftrue.Gestures3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.gauchewy.Gesture3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

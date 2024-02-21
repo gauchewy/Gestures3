@@ -25,6 +25,9 @@ struct CameraView: UIViewControllerRepresentable {
 
 struct OtherView: View {
     let selection: SelectedOption
+    
+    var onComplete: (([String: Any]) -> Void)? // for saving participant data 
+    
     @State var viewCleared: Bool = false
     @State private var confLevel: Double = 0.5 // Default value
     @State private var timeRemaining = 180 // 180 seconds for 3 minutes

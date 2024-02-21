@@ -14,6 +14,9 @@ struct TaskMainView: View {
     @State private var offGestures = ["interlace", "binoculars", "wave", "frame"]
     @State private var currentIndex = 0
     @State private var isScreenshotTaken = false
+    
+    @State private var currentParticipantNumber = 1
+    @State private var participantDataList: [ParticipantData] = []
 
     
     init() {
@@ -49,6 +52,7 @@ struct TaskMainView: View {
                 }
                 .onChange(of: isScreenshotTaken) { taken in
                     if taken {
+                        // currently this is the only way to move on 
                         moveToNextGesture()
                     }
                 }
@@ -70,19 +74,43 @@ struct TaskMainView: View {
                
                 // off gestures
                case "interlace":
-                return AnyView(OtherView(selection:.interlace))
+                return AnyView(OtherView(selection:.interlace, onComplete: { data in
+                    saveParticipantData(data)
+                }))
             case "binoculars":
-                return AnyView(OtherView(selection:.binoculars))
+                return AnyView(OtherView(selection:.binoculars, onComplete: { data in
+                    saveParticipantData(data)
+                }))
             case "wave":
-                return AnyView(OtherView(selection:.wave))
+                return AnyView(OtherView(selection:.wave, onComplete: { data in
+                    saveParticipantData(data)
+                }))
             case "frame":
-                return AnyView(OtherView(selection:.frame))
+                return AnyView(OtherView(selection:.frame,  onComplete: { data in
+                    saveParticipantData(data)
+                }))
                 
                 
                default:
                    return AnyView(Text("Unknown Gesture"))
                }
         }
+    
+    func saveParticipantData(_ gestureData: [String: Any]) {
+        let participantData = ParticipantData(participantNumber: currentParticipantNumber, gestureData: gestureData)
+        participantDataList.append(participantData)
+        moveToNextParticipant()
+    }
+    
+    func moveToNextParticipant() {
+        if currentIndex >= onGestures.count + offGestures.count - 1 {
+            currentParticipantNumber += 1
+            currentIndex = 0 // Reset the index for the next participant
+            // Reset other states as needed for the next participant
+        } else {
+            moveToNextGesture()
+        }
+    }
 
     func moveToNextGesture() {
            if currentIndex < onGestures.count + offGestures.count - 1 {
@@ -94,3 +122,10 @@ struct TaskMainView: View {
 #Preview {
     TaskMainView()
 }
+
+
+struct ParticipantData {
+    var participantNumber: Int
+    var gestureData: [String: Any]
+}
+

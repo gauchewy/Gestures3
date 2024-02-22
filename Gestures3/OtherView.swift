@@ -39,6 +39,16 @@ struct OtherView: View {
     
     let beigeColor = Color(red: 0.96, green: 0.96, blue: 0.86)
     
+    // a line of data 
+    private func completeGesture() {
+           let data: [String: Any] = [
+               "gesture": selection.rawValue,
+               "timeRemaining": timeRemaining,
+               "resetCount": resetCounter
+           ]
+           onComplete?(data)
+       }
+    
     var imageName: String {
            switch selection {
            case .frame:

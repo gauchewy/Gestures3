@@ -52,7 +52,6 @@ struct TaskMainView: View {
                 }
             }
         }
-        
     }
     
     private func participantNumberInputView() -> some View {
@@ -85,34 +84,42 @@ struct TaskMainView: View {
     private func gestureTaskView() -> some View {
         NavigationView {
             VStack {
-                if type.first == "onGestures" {
-                    if currentIndex < onGestures.count {
-                        gestureView(for: onGestures[currentIndex])
-                    } else if currentIndex < onGestures.count + offGestures.count {
-                        gestureView(for: offGestures[currentIndex - onGestures.count])
+                // Handling the display of gesture tasks based on the current index
+                if currentIndex < onGestures.count + offGestures.count - 1{
+                    if type.first == "onGestures" {
+                        gestureView(for: currentIndex < onGestures.count ? onGestures[currentIndex] : offGestures[currentIndex - onGestures.count])
+                    } else {
+                        gestureView(for: currentIndex < offGestures.count ? offGestures[currentIndex] : onGestures[currentIndex - offGestures.count])
                     }
-                } else {
-                    if currentIndex < offGestures.count {
-                        gestureView(for: offGestures[currentIndex])
-                    } else if currentIndex < onGestures.count + offGestures.count {
-                        gestureView(for: onGestures[currentIndex - offGestures.count])
-                    }
-                }
-                
-                if currentIndex >= onGestures.count + offGestures.count {
-                    Text("All tasks completed")
-                }
 
-                Button("Next Gesture") {
-                    moveToNextGesture()
-                    
+                    // "Next Gesture" button
+                    Button("Next Gesture") {
+                        moveToNextGesture()
+                    }
+                    .padding()
+                } else if currentIndex == onGestures.count + offGestures.count - 1 {
+                   NavigationLink(destination: SummaryView(participantData: participantDataList.last ?? ParticipantData(participantNumber: 0, gestureData: [:]))) {
+                       Text("View Summary")
+                           .font(.headline)
+                           .frame(minWidth: 0, maxWidth: .infinity)
+                           .padding()
+                           .foregroundColor(.white)
+                           .background(Color.blue)
+                           .cornerRadius(10)
+                   }
+                   .padding()
+                } else {
+                    // Display message and navigation link when all gestures are completed
+                    Text("All tasks completed")
+                        .padding()
+
                 }
             }
             .onAppear {
-                        if isPoseDetected && progressMethod == .detectPose {
-                            moveToNextGesture()
-                        }
-                    }
+                if isPoseDetected && progressMethod == .detectPose {
+                    moveToNextGesture()
+                }
+            }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.userDidTakeScreenshotNotification)) { _ in
                 isScreenshotTaken = true
             }
@@ -125,14 +132,14 @@ struct TaskMainView: View {
                 if detected && progressMethod == .detectPose {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         moveToNextGesture()
-                        //reset it
-                        isPoseDetected = false
+                        isPoseDetected = false  // Reset the flag
                     }
                 }
             }
+            .navigationViewStyle(StackNavigationViewStyle())
         }
-        .navigationViewStyle(StackNavigationViewStyle())
     }
+
 
         func gestureView(for gesture: String) -> some View {
             switch gesture {
@@ -172,13 +179,34 @@ struct TaskMainView: View {
             default:
                 return AnyView(Text("Unknown Gesture"))
             }
+            
+            
         }
         
-        func saveParticipantData(_ gestureData: [String: Any]) {
-            let participantData = ParticipantData(participantNumber: currentParticipantNumber, gestureData: gestureData)
-            participantDataList.append(participantData)
-            moveToNextParticipant()
+    func saveParticipantData(_ gestureData: [String: Any]) {
+        guard let timeRemaining = gestureData["timeRemaining"] as? Int,
+              let resetCount = gestureData["resetCount"] as? Int else {
+            print("Invalid data format")
+            return
         }
+
+        // Assuming the gesture name is already in 'gestureData' under a key like "gesture"
+        let gestureName = gestureData["gesture"] as? String ?? "Unknown"
+
+        // Format the data as "gesture; time left in timer; counts on counter"
+        let formattedData = "\(gestureName); \(timeRemaining); \(resetCount)"
+
+        // Create a dictionary with the formatted data
+        let formattedGestureData = ["data": formattedData]
+
+        // Create the ParticipantData object
+        let participantData = ParticipantData(participantNumber: currentParticipantNumber, gestureData: formattedGestureData)
+        participantDataList.append(participantData)
+
+        // Move to the next participant
+        moveToNextParticipant()
+    }
+
         
         func moveToNextParticipant() {
             if currentIndex >= onGestures.count + offGestures.count - 1 {
@@ -199,7 +227,7 @@ struct TaskMainView: View {
         }
     }
     
-    
+
     
     struct ParticipantData {
         var participantNumber: Int

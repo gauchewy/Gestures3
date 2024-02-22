@@ -3,7 +3,7 @@
 //  Gestures3
 //
 //  Created by Qiwei on 2/12/24.
-//
+
 
 import SwiftUI
 
@@ -16,7 +16,7 @@ struct TaskMainView: View {
     @State private var isScreenshotTaken = false
     
     @State private var currentParticipantNumber = 1
-    @State private var participantDataList: [ParticipantData] = []
+  //  @State private var participantDataList: [ParticipantData] = []
     
     @State private var isParticipantNumberEntered: Bool = false
     
@@ -33,9 +33,9 @@ struct TaskMainView: View {
     }
     
     enum ProgressOption: String, CaseIterable, Identifiable {
-        case screenshot = "Screenshot"
-        case nextButton = "Next Button"
-        case detectPose = "Detect Pose"
+        //case nextButton = "Next Button"
+        case detectPose = "Task Doable"
+        case screenshot = "Task Deterable"
         
         var id: String { self.rawValue }
     }
@@ -84,36 +84,26 @@ struct TaskMainView: View {
     private func gestureTaskView() -> some View {
         NavigationView {
             VStack {
-                // Handling the display of gesture tasks based on the current index
-                if currentIndex < onGestures.count + offGestures.count - 1{
-                    if type.first == "onGestures" {
-                        gestureView(for: currentIndex < onGestures.count ? onGestures[currentIndex] : offGestures[currentIndex - onGestures.count])
-                    } else {
-                        gestureView(for: currentIndex < offGestures.count ? offGestures[currentIndex] : onGestures[currentIndex - offGestures.count])
-                    }
+                if currentIndex < onGestures.count + offGestures.count {
+                   // Display the current gesture view
+                   gestureView(for: getCurrentGesture())
 
-                    // "Next Gesture" button
-                    Button("Next Gesture") {
-                        moveToNextGesture()
-                    }
-                    .padding()
-                } else if currentIndex == onGestures.count + offGestures.count - 1 {
-                   NavigationLink(destination: SummaryView(participantData: participantDataList.last ?? ParticipantData(participantNumber: 0, gestureData: [:]))) {
-                       Text("View Summary")
-                           .font(.headline)
-                           .frame(minWidth: 0, maxWidth: .infinity)
-                           .padding()
-                           .foregroundColor(.white)
-                           .background(Color.blue)
-                           .cornerRadius(10)
+                   // Check if this is the last gesture
+                   if currentIndex < onGestures.count + offGestures.count - 1 {
+                       // Not the last gesture - show "Next Gesture" button
+                       Button("Next Gesture") {
+                           moveToNextGesture()
+                       }
+                       .padding()
+                   } else {
+                       // Last gesture - show completion text
+                       Text("Task Complete")
                    }
-                   .padding()
-                } else {
-                    // Display message and navigation link when all gestures are completed
-                    Text("All tasks completed")
-                        .padding()
-
-                }
+               } else {
+                   // All tasks are completed
+                   Text("All tasks completed")
+                       .padding()
+               }
             }
             .onAppear {
                 if isPoseDetected && progressMethod == .detectPose {
@@ -139,6 +129,14 @@ struct TaskMainView: View {
             .navigationViewStyle(StackNavigationViewStyle())
         }
     }
+    
+    private func getCurrentGesture() -> String {
+           if type.first == "onGestures" {
+               return currentIndex < onGestures.count ? onGestures[currentIndex] : offGestures[currentIndex - onGestures.count]
+           } else {
+               return currentIndex < offGestures.count ? offGestures[currentIndex] : onGestures[currentIndex - offGestures.count]
+           }
+       }
 
 
         func gestureView(for gesture: String) -> some View {
@@ -156,22 +154,22 @@ struct TaskMainView: View {
                 // off gestures
             case "interlace":
                 return AnyView(OtherView(selection: .interlace, onComplete: { data in
-                    saveParticipantData(data)
+                    //saveParticipantData(data)
                 }, isPoseDetected: $isPoseDetected).id(resetKey))
                 
             case "binoculars":
                 return AnyView(OtherView(selection: .binoculars, onComplete: { data in
-                    saveParticipantData(data)
+                    //saveParticipantData(data)
                 }, isPoseDetected: $isPoseDetected).id(resetKey))
                 
             case "wave":
                 return AnyView(OtherView(selection: .wave, onComplete: { data in
-                    saveParticipantData(data)
+                    //saveParticipantData(data)
                 }, isPoseDetected: $isPoseDetected).id(resetKey))
                 
             case "frame":
                 return AnyView(OtherView(selection: .frame, onComplete: { data in
-                    saveParticipantData(data)
+                    //saveParticipantData(data)
                 }, isPoseDetected: $isPoseDetected).id(resetKey))
                         
                 
@@ -182,41 +180,41 @@ struct TaskMainView: View {
             
             
         }
+//        
+//    func saveParticipantData(_ gestureData: [String: Any]) {
+//        guard let timeRemaining = gestureData["timeRemaining"] as? Int,
+//              let resetCount = gestureData["resetCount"] as? Int else {
+//            print("Invalid data format")
+//            return
+//        }
+//
+//        // Assuming the gesture name is already in 'gestureData' under a key like "gesture"
+//        let gestureName = gestureData["gesture"] as? String ?? "Unknown"
+//
+//        // Format the data as "gesture; time left in timer; counts on counter"
+//        let formattedData = "\(gestureName); \(timeRemaining); \(resetCount)"
+//
+//        // Create a dictionary with the formatted data
+//        let formattedGestureData = ["data": formattedData]
+//
+//        // Create the ParticipantData object
+//        let participantData = ParticipantData(participantNumber: currentParticipantNumber, gestureData: formattedGestureData)
+//        participantDataList.append(participantData)
+//
+//        // Move to the next participant
+//        moveToNextParticipant()
+//    }
+
         
-    func saveParticipantData(_ gestureData: [String: Any]) {
-        guard let timeRemaining = gestureData["timeRemaining"] as? Int,
-              let resetCount = gestureData["resetCount"] as? Int else {
-            print("Invalid data format")
-            return
-        }
-
-        // Assuming the gesture name is already in 'gestureData' under a key like "gesture"
-        let gestureName = gestureData["gesture"] as? String ?? "Unknown"
-
-        // Format the data as "gesture; time left in timer; counts on counter"
-        let formattedData = "\(gestureName); \(timeRemaining); \(resetCount)"
-
-        // Create a dictionary with the formatted data
-        let formattedGestureData = ["data": formattedData]
-
-        // Create the ParticipantData object
-        let participantData = ParticipantData(participantNumber: currentParticipantNumber, gestureData: formattedGestureData)
-        participantDataList.append(participantData)
-
-        // Move to the next participant
-        moveToNextParticipant()
-    }
-
-        
-        func moveToNextParticipant() {
-            if currentIndex >= onGestures.count + offGestures.count - 1 {
-                currentParticipantNumber += 1
-                currentIndex = 0 // Reset the index for the next participant
-                // Reset other states as needed for the next participant
-            } else {
-                moveToNextGesture()
-            }
-        }
+//        func moveToNextParticipant() {
+//            if currentIndex >= onGestures.count + offGestures.count - 1 {
+//                currentParticipantNumber += 1
+//                currentIndex = 0 // Reset the index for the next participant
+//                // Reset other states as needed for the next participant
+//            } else {
+//                moveToNextGesture()
+//            }
+//        }
         
         func moveToNextGesture() {
             if currentIndex < onGestures.count + offGestures.count - 1 {
@@ -229,9 +227,9 @@ struct TaskMainView: View {
     
 
     
-    struct ParticipantData {
-        var participantNumber: Int
-        var gestureData: [String: Any]
-    }
+//    struct ParticipantData {
+//        var participantNumber: Int
+//        var gestureData: [String: Any]
+//    }
     
 

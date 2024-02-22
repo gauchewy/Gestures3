@@ -18,7 +18,6 @@
 		712255E72AF4170800D719B7 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255E62AF4170800D719B7 /* ImagePicker.swift */; };
 		712255EB2AF41C4C00D719B7 /* TapButtonsViewV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255EA2AF41C4C00D719B7 /* TapButtonsViewV1.swift */; };
 		71B4171E2B7A83B7001377FA /* TaskMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B4171D2B7A83B7001377FA /* TaskMainView.swift */; };
-		71C602ED2B86625D0083EBB3 /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C602EC2B86625D0083EBB3 /* SummaryView.swift */; };
 		71C602F32B8679710083EBB3 /* GestureState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C602F22B8679710083EBB3 /* GestureState.swift */; };
 		71C926EC2B60B37700A7FA35 /* TapButtonsViewV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C926EB2B60B37700A7FA35 /* TapButtonsViewV3.swift */; };
 		71CA901C2B7BF33800D0C320 /* GESTURES31.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 71CA901B2B7BF33800D0C320 /* GESTURES31.mlmodel */; };
@@ -38,7 +37,6 @@
 		712255E62AF4170800D719B7 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		712255EA2AF41C4C00D719B7 /* TapButtonsViewV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapButtonsViewV1.swift; sourceTree = "<group>"; };
 		71B4171D2B7A83B7001377FA /* TaskMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskMainView.swift; sourceTree = "<group>"; };
-		71C602EC2B86625D0083EBB3 /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 		71C602F22B8679710083EBB3 /* GestureState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureState.swift; sourceTree = "<group>"; };
 		71C926EB2B60B37700A7FA35 /* TapButtonsViewV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapButtonsViewV3.swift; sourceTree = "<group>"; };
 		71CA901B2B7BF33800D0C320 /* GESTURES31.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = GESTURES31.mlmodel; sourceTree = "<group>"; };
@@ -78,7 +76,6 @@
 				71CA901B2B7BF33800D0C320 /* GESTURES31.mlmodel */,
 				712255D42AF414DF00D719B7 /* ContentView.swift */,
 				71B4171D2B7A83B7001377FA /* TaskMainView.swift */,
-				71C602EC2B86625D0083EBB3 /* SummaryView.swift */,
 				712255EA2AF41C4C00D719B7 /* TapButtonsViewV1.swift */,
 				7108E8912B6071DD00363B88 /* TapButtonsViewV2.swift */,
 				71C926EB2B60B37700A7FA35 /* TapButtonsViewV3.swift */,
@@ -173,7 +170,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71C602ED2B86625D0083EBB3 /* SummaryView.swift in Sources */,
 				7108E8922B6071DD00363B88 /* TapButtonsViewV2.swift in Sources */,
 				71B4171E2B7A83B7001377FA /* TaskMainView.swift in Sources */,
 				712255E52AF4154B00D719B7 /* ViewController.swift in Sources */,

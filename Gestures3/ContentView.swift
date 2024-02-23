@@ -26,7 +26,7 @@ struct ContentView: View {
                 VStack {
                     Spacer()
                     
-                    Text("Welcome to Justure")
+                    Text("Hands-Off")
                         .font(.largeTitle)
                         .bold()
                         .padding()
@@ -34,7 +34,7 @@ struct ContentView: View {
                     Spacer()
                     
                     NavigationLink(destination: TaskMainView()) {
-                        Text("Begin Task 1")
+                        Text("Begin Task")
                             .font(.headline)
                             .frame(minWidth: 0, maxWidth: .infinity)
                             .padding()

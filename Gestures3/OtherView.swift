@@ -29,7 +29,7 @@ struct OtherView: View {
     var resetState: () -> Void = {}
     
     @State var viewCleared: Bool = false
-    @State private var confLevel: Double = 0.5 // Default value
+    @State private var confLevel: Double = 0.9 // Default value
     @State private var timeRemaining = 180 // 180 seconds for 3 minutes
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State private var resetCounter = 0 // Counter for tracking viewCleared resets

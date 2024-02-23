@@ -9,8 +9,8 @@ import SwiftUI
 
 struct TaskMainView: View {
     @StateObject private var gestureState = GestureState()
-    @State private var type = ["onGestures", "offGestures"]
-    @State private var onGestures = ["tap 1", "tap 2", "tap 3", "slide"]
+    @State private var type = ["offGestures"]
+    @State private var onGestures = [""]
     @State private var offGestures = ["interlace", "binoculars", "wave", "frame"]
     @State private var currentIndex = 0
     @State private var isScreenshotTaken = false

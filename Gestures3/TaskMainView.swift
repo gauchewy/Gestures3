@@ -14,6 +14,7 @@ struct TaskMainView: View {
     @State private var offGestures = ["interlace", "binoculars", "wave", "frame"]
     @State private var currentIndex = 0
     @State private var isScreenshotTaken = false
+    @State private var showCountdown = false
     
     @State private var currentParticipantNumber = 1
   //  @State private var participantDataList: [ParticipantData] = []
@@ -84,7 +85,10 @@ struct TaskMainView: View {
     private func gestureTaskView() -> some View {
         NavigationView {
             VStack {
-                if currentIndex < onGestures.count + offGestures.count {
+                if showCountdown{
+                    CountdownView()
+                }
+                else if currentIndex < onGestures.count + offGestures.count {
                    // Display the current gesture view
                    gestureView(for: getCurrentGesture())
 
@@ -121,6 +125,12 @@ struct TaskMainView: View {
             .onChange(of: isPoseDetected) { detected in
                 if detected && progressMethod == .detectPose {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {  //TIME BETWEEN SCREEN MOVEMENT
+                        self.showCountdown = true
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+                            self.showCountdown = false
+                        }
+                        
                         moveToNextGesture()
                         isPoseDetected = false  // Reset the flag
                     }
@@ -224,7 +234,7 @@ struct TaskMainView: View {
             }
         }
     }
-    
+
 
     
 //    struct ParticipantData {

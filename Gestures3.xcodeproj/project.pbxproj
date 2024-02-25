@@ -18,7 +18,7 @@
 		712255E72AF4170800D719B7 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255E62AF4170800D719B7 /* ImagePicker.swift */; };
 		712255EB2AF41C4C00D719B7 /* TapButtonsViewV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255EA2AF41C4C00D719B7 /* TapButtonsViewV1.swift */; };
 		712EEE642B8BB4F500F8BC0B /* UnlockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712EEE632B8BB4F500F8BC0B /* UnlockedView.swift */; };
-		712EEE662B8BB8EB00F8BC0B /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712EEE652B8BB8EB00F8BC0B /* CountdownView.swift */; };
+		712EEE682B8BBCDD00F8BC0B /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712EEE672B8BBCDD00F8BC0B /* CountdownView.swift */; };
 		71B4171E2B7A83B7001377FA /* TaskMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B4171D2B7A83B7001377FA /* TaskMainView.swift */; };
 		71C602F32B8679710083EBB3 /* GestureState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C602F22B8679710083EBB3 /* GestureState.swift */; };
 		71C926EC2B60B37700A7FA35 /* TapButtonsViewV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C926EB2B60B37700A7FA35 /* TapButtonsViewV3.swift */; };
@@ -39,7 +39,7 @@
 		712255E62AF4170800D719B7 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		712255EA2AF41C4C00D719B7 /* TapButtonsViewV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapButtonsViewV1.swift; sourceTree = "<group>"; };
 		712EEE632B8BB4F500F8BC0B /* UnlockedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockedView.swift; sourceTree = "<group>"; };
-		712EEE652B8BB8EB00F8BC0B /* CountdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
+		712EEE672B8BBCDD00F8BC0B /* CountdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
 		71B4171D2B7A83B7001377FA /* TaskMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskMainView.swift; sourceTree = "<group>"; };
 		71C602F22B8679710083EBB3 /* GestureState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureState.swift; sourceTree = "<group>"; };
 		71C926EB2B60B37700A7FA35 /* TapButtonsViewV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapButtonsViewV3.swift; sourceTree = "<group>"; };
@@ -93,7 +93,7 @@
 				712255D82AF414DF00D719B7 /* Preview Content */,
 				71C602F22B8679710083EBB3 /* GestureState.swift */,
 				712EEE632B8BB4F500F8BC0B /* UnlockedView.swift */,
-				712EEE652B8BB8EB00F8BC0B /* CountdownView.swift */,
+				712EEE672B8BBCDD00F8BC0B /* CountdownView.swift */,
 			);
 			path = Gestures3;
 			sourceTree = "<group>";
@@ -182,7 +182,7 @@
 				712255E52AF4154B00D719B7 /* ViewController.swift in Sources */,
 				71CA901C2B7BF33800D0C320 /* GESTURES31.mlmodel in Sources */,
 				712255D52AF414DF00D719B7 /* ContentView.swift in Sources */,
-				712EEE662B8BB8EB00F8BC0B /* CountdownView.swift in Sources */,
+				712EEE682B8BBCDD00F8BC0B /* CountdownView.swift in Sources */,
 				712255D32AF414DF00D719B7 /* Gestures3App.swift in Sources */,
 				712255E72AF4170800D719B7 /* ImagePicker.swift in Sources */,
 				712255EB2AF41C4C00D719B7 /* TapButtonsViewV1.swift in Sources */,

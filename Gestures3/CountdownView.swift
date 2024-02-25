@@ -13,6 +13,7 @@ struct CountdownView: View {
 
     var body: some View {
         VStack {
+            Spacer()
             Text("Next gesture in...")
                 .font(.title)
 
@@ -23,10 +24,10 @@ struct CountdownView: View {
                         countdown -= 1
                     }
                 }
+            Spacer()
         }
     }
 }
-
 
 #Preview {
     CountdownView()

@@ -115,13 +115,19 @@ struct TaskMainView: View {
                 }
             }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.userDidTakeScreenshotNotification)) { _ in
-                isScreenshotTaken = true
-            }
-            .onChange(of: isScreenshotTaken) { taken in
-                if taken && progressMethod == .screenshot {
-                    moveToNextGesture()
-                }
-            }
+               if progressMethod == .screenshot && isPoseDetected {
+                   self.showCountdown = true
+                   DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+                       self.showCountdown = false
+                   }
+                   
+                   moveToNextGesture()
+                   isScreenshotTaken = false // Reset the flag
+                   isPoseDetected = false // Reset the flag
+               } else {
+                   isScreenshotTaken = true
+               }
+           }
             .onChange(of: isPoseDetected) { detected in
                 if detected && progressMethod == .detectPose {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {  //TIME BETWEEN SCREEN MOVEMENT

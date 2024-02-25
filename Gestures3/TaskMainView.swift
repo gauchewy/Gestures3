@@ -23,6 +23,7 @@ struct TaskMainView: View {
     
     @State private var resetKey = UUID()
     @State private var progressMethod: ProgressOption = .screenshot
+    @State private var timeMethod: TimeOption = .onemin
     
     @State private var isPoseDetected: Bool = false
     
@@ -37,6 +38,15 @@ struct TaskMainView: View {
         //case nextButton = "Next Button"
         case detectPose = "Task Doable"
         case screenshot = "Task Deterable"
+        
+        var id: String { self.rawValue }
+    }
+    
+    enum TimeOption: String, CaseIterable, Identifiable {
+        //case nextButton = "Next Button"
+        case onemin = "1 minute"
+        case twomin = "2 minutes"
+        case threemin = "3 minutes"
         
         var id: String { self.rawValue }
     }
@@ -67,6 +77,13 @@ struct TaskMainView: View {
             Picker("Progress Method", selection: $progressMethod) {
                 ForEach(ProgressOption.allCases) { option in
                     Text(option.rawValue).tag(option)                }
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            .padding()
+            
+            Picker("Time per gesture", selection: $timeMethod) {
+                ForEach(TimeOption.allCases) { times in
+                    Text(times.rawValue).tag(times)                }
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding()

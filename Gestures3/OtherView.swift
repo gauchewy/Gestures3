@@ -24,7 +24,11 @@ struct CameraView: UIViewControllerRepresentable {
 }
 
 struct OtherView: View {
+    
+    
+    
     let selection: SelectedOption
+    
     var onComplete: (([String: Any]) -> Void)? // for saving participant data
     var resetState: () -> Void = {}
     

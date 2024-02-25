@@ -120,7 +120,7 @@ struct TaskMainView: View {
             }
             .onChange(of: isPoseDetected) { detected in
                 if detected && progressMethod == .detectPose {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {  //TIME BETWEEN SCREEN MOVEMENT
                         moveToNextGesture()
                         isPoseDetected = false  // Reset the flag
                     }

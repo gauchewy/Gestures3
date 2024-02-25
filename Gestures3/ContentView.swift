@@ -39,7 +39,7 @@ struct ContentView: View {
                             .frame(minWidth: 0, maxWidth: .infinity)
                             .padding()
                             .foregroundColor(.white)
-                            .background(Color.yellow)
+                            .background(Color.green)
                             .cornerRadius(10)
                     }.padding()
                     
@@ -47,59 +47,59 @@ struct ContentView: View {
                     
                     Spacer()
                     
-                    NavigationLink(destination: TapButtonsViewV1(onComplete: {
-                        print("completed")
-                    })) {
-                        Text("Tap Buttons One")
-                            .font(.headline)
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(Color.green)
-                            .cornerRadius(10)
-                    }.padding()
-                     .navigationBarTitleDisplayMode(.inline)
+//                    NavigationLink(destination: TapButtonsViewV1(onComplete: {
+//                        print("completed")
+//                    })) {
+//                        Text("Tap Buttons One")
+//                            .font(.headline)
+//                            .frame(minWidth: 0, maxWidth: .infinity)
+//                            .padding()
+//                            .foregroundColor(.white)
+//                            .background(Color.green)
+//                            .cornerRadius(10)
+//                    }.padding()
+//                     .navigationBarTitleDisplayMode(.inline)
+//                    
+//                    NavigationLink(destination: TapButtonsViewV2(onComplete: {
+//                        print("completed")
+//                    })) {
+//                        Text("Tap Buttons Two")
+//                            .font(.headline)
+//                            .frame(minWidth: 0, maxWidth: .infinity)
+//                            .padding()
+//                            .foregroundColor(.white)
+//                            .background(Color.green)
+//                            .cornerRadius(10)
+//                    }.padding()
+//                        .navigationBarTitleDisplayMode(.inline)
+//                    
+//                    NavigationLink(destination: TapButtonsViewV3(onComplete: {
+//                        print("completed")
+//                    })) {
+//                        Text("Tap Buttons Three")
+//                            .font(.headline)
+//                            .frame(minWidth: 0, maxWidth: .infinity)
+//                            .padding()
+//                            .foregroundColor(.white)
+//                            .background(Color.green)
+//                            .cornerRadius(10)
+//                    }.padding()
+//                        .navigationBarTitleDisplayMode(.inline)
                     
-                    NavigationLink(destination: TapButtonsViewV2(onComplete: {
-                        print("completed")
-                    })) {
-                        Text("Tap Buttons Two")
-                            .font(.headline)
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(Color.green)
-                            .cornerRadius(10)
-                    }.padding()
-                        .navigationBarTitleDisplayMode(.inline)
-                    
-                    NavigationLink(destination: TapButtonsViewV3(onComplete: {
-                        print("completed")
-                    })) {
-                        Text("Tap Buttons Three")
-                            .font(.headline)
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(Color.green)
-                            .cornerRadius(10)
-                    }.padding()
-                        .navigationBarTitleDisplayMode(.inline)
-                    
-                    NavigationLink(destination: SlideButtonsView(onComplete: {
-                        print("completed")
-                    })) {
-                        Text("Slide Buttons")
-                            .font(.headline)
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(Color.green)
-                            .cornerRadius(10)
-                    }.padding()
-                        .navigationBarTitleDisplayMode(.inline)
-                    
-                    Spacer()
+//                    NavigationLink(destination: SlideButtonsView(onComplete: {
+//                        print("completed")
+//                    })) {
+//                        Text("Slide Buttons")
+//                            .font(.headline)
+//                            .frame(minWidth: 0, maxWidth: .infinity)
+//                            .padding()
+//                            .foregroundColor(.white)
+//                            .background(Color.green)
+//                            .cornerRadius(10)
+//                    }.padding()
+//                        .navigationBarTitleDisplayMode(.inline)
+//                    
+//                    Spacer()
                     
 //                    NavigationLink(destination: ScratchView()) {
 //                        Text("iScratch")

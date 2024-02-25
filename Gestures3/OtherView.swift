@@ -62,10 +62,26 @@ struct OtherView: View {
            }
        }
     
+    var titleName: String {
+           switch selection {
+           case .frame:
+               return "Frame"
+           case .binoculars:
+               return "Binoculars"
+           case .wave:
+               return "Wave"
+           case .interlace:
+               return "Clasp Hands"
+           }
+       }
+    
 
     var body: some View {
         
-        VStack{
+        VStack(spacing: 0) {
+            
+            Text(titleName)
+                .font(.subheadline)
             
             HStack{
                 
@@ -86,20 +102,19 @@ struct OtherView: View {
                                .padding()
             }
             
-            VStack{
-                Slider(value: $confLevel, in: 0...1, step: 0.1)
-                    .padding()
-                Text("Confidence Level: \(confLevel, specifier: "%.1f")")
-                    .font(.subheadline)
-            }
+            //SLIDER HERE
             
+//            VStack{
+//                Slider(value: $confLevel, in: 0...1, step: 0.1)
+//                    .padding()
+//                Text("Confidence Level: \(confLevel, specifier: "%.1f")")
+//                    .font(.subheadline)
+//            }
+//            
 
             
             ZStack{
-                Image("treehouse")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding()
+                UnlockedView()
                 
                 
             if !viewCleared {

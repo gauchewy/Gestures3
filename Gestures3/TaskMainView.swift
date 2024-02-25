@@ -173,6 +173,7 @@ struct TaskMainView: View {
 
 
         func gestureView(for gesture: String) -> some View {
+            let timeInSeconds = getTimeInSeconds(from: timeMethod)
             switch gesture {
                 // on gestures
             case "tap 1":
@@ -186,34 +187,59 @@ struct TaskMainView: View {
                 
                 // off gestures
             case "interlace":
-                return AnyView(OtherView(selection: .interlace, onComplete: { data in
-                    //saveParticipantData(data)
-                }, isPoseDetected: $isPoseDetected).id(resetKey))
+                return AnyView(OtherView(selection: .interlace,
+                                                     timeInSeconds: timeInSeconds,
+                                                     isPoseDetected: $isPoseDetected,
+                                                     onComplete: { data in
+                                                     },
+                                                     resetState: {
+                                                     }))
                 
             case "binoculars":
-                return AnyView(OtherView(selection: .binoculars, onComplete: { data in
-                    //saveParticipantData(data)
-                }, isPoseDetected: $isPoseDetected).id(resetKey))
+                return AnyView(OtherView(selection: .binoculars,
+                                                     timeInSeconds: timeInSeconds,
+                                                     isPoseDetected: $isPoseDetected,
+                                                     onComplete: { data in
+                                                     },
+                                                     resetState: {
+                                                     }))
                 
             case "wave":
-                return AnyView(OtherView(selection: .wave, onComplete: { data in
-                    //saveParticipantData(data)
-                }, isPoseDetected: $isPoseDetected).id(resetKey))
+                return AnyView(OtherView(selection: .wave,
+                                                     timeInSeconds: timeInSeconds,
+                                                     isPoseDetected: $isPoseDetected,
+                                                     onComplete: { data in
+                                                     },
+                                                     resetState: {
+                                                     }))
                 
             case "frame":
-                return AnyView(OtherView(selection: .frame, onComplete: { data in
-                    //saveParticipantData(data)
-                }, isPoseDetected: $isPoseDetected).id(resetKey))
-                        
-                
+                return AnyView(OtherView(selection: .frame,
+                                                     timeInSeconds: timeInSeconds,
+                                                     isPoseDetected: $isPoseDetected,
+                                                     onComplete: { data in
+                                                     },
+                                                     resetState: {
+                                                     }))
                 
             default:
-                return AnyView(Text("Unknown Gesture"))
+                return AnyView(Text("Complete"))
             }
             
             
         }
-//        
+    
+    private func getTimeInSeconds(from timeOption: TimeOption) -> Int {
+        switch timeOption {
+        case .onemin:
+            return 60
+        case .twomin:
+            return 120
+        case .threemin:
+            return 180
+        }
+    }
+//
 //    func saveParticipantData(_ gestureData: [String: Any]) {
 //        guard let timeRemaining = gestureData["timeRemaining"] as? Int,
 //              let resetCount = gestureData["resetCount"] as? Int else {

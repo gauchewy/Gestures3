@@ -147,7 +147,7 @@ struct ButtonGroupView: View {
     var body: some View {
         VStack {
             ForEach(actions, id: \.self) { action in
-                NavigationLink(destination: OtherView(selection: action, isPoseDetected: $isPoseDetected)) {
+                NavigationLink(destination: OtherView(selection: action,   timeInSeconds: 60, isPoseDetected: $isPoseDetected)) {
                     Text(action.rawValue)
                         .font(.headline)
                         .frame(minWidth: 0, maxWidth: .infinity)

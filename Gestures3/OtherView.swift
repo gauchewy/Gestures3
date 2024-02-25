@@ -24,9 +24,7 @@ struct CameraView: UIViewControllerRepresentable {
 }
 
 struct OtherView: View {
-    
-    
-    
+    let timeInSeconds: Int
     let selection: SelectedOption
     
     var onComplete: (([String: Any]) -> Void)? // for saving participant data
@@ -42,6 +40,16 @@ struct OtherView: View {
     @Binding var isPoseDetected: Bool // for option 3
     
     let beigeColor = Color(red: 0.96, green: 0.96, blue: 0.86)
+    
+    init(selection: SelectedOption, timeInSeconds: Int, isPoseDetected: Binding<Bool>, onComplete: (([String: Any]) -> Void)? = nil, resetState: @escaping () -> Void = {}) {
+            self.selection = selection
+            self.timeInSeconds = timeInSeconds
+            self._isPoseDetected = isPoseDetected
+            self.onComplete = onComplete
+            self.resetState = resetState
+            self._timeRemaining = State(initialValue: timeInSeconds)
+        }
+
     
     // a line of data 
     private func completeGesture() {
@@ -82,7 +90,7 @@ struct OtherView: View {
 
     var body: some View {
         
-        VStack(spacing: 0) {
+        VStack{
             
             Text(titleName)
                 .font(.subheadline)
@@ -98,7 +106,7 @@ struct OtherView: View {
                                     }
                                 }
                                 .onAppear {
-                                    self.timeRemaining = 180 // Reset the timer to 3 minutes
+                                    self.timeRemaining = timeInSeconds // Reset the timer to 3 minutes
                                 }
                 
                 Text("Reset Count: \(resetCounter)")
@@ -164,7 +172,7 @@ struct OtherView: View {
                        }
             .onAppear(){
                 resetCounter = 0
-                timeRemaining = 180
+                timeRemaining = timeInSeconds
                 resetState()
             }
         }

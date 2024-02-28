@@ -98,12 +98,6 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
                 return
             }
             
-            // Check if at least two hands are detected
-            guard observations.count >= 2 else {
-                print("Less than two hands detected.")
-                self.complete(false)
-                return
-            }
             
             guard let keypointsMultiArray = try? observations[0].keypointsMultiArray() else {
                 print("Failed to create keypointsMultiArray")
@@ -122,15 +116,26 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
                 return
             }
             
+            if self.selectedOption == .interlace && predictedLabel == "InterlaceFingers" && confidence >= 0.9 {
+                self.lastInterlaceDetectionTime = Date()
+                self.complete(true)
+            }
+            
+            else {
+                // Check if at least two hands are detected
+                guard observations.count >= 2 else {
+                    print("Less than two hands detected.")
+                    self.complete(false)
+                    return
+                }
+            }
+            
+            
             print("PREDICTION: \(predictedLabel) \(confidence)")
             
             DispatchQueue.main.async {
                 if self.selectedOption == .binoculars && predictedLabel == "Binoculars" && confidence >= 0.9 {
                     self.lastBinocularsDetectionTime = Date()
-                    self.complete(true)
-                }
-                if self.selectedOption == .interlace && predictedLabel == "InterlaceFingers" && confidence >= 0.9 {
-                    self.lastInterlaceDetectionTime = Date()
                     self.complete(true)
                 }
                 

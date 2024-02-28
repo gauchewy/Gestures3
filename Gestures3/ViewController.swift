@@ -100,7 +100,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
                 return
             }
             
-            print("PREDICTION: \(predictedLabel) \(confidence)")
+            print("PREDICTION: \(predictedLabel)76 \(confidence)")
             
             DispatchQueue.main.async {
                 // Check if the predicted gesture matches the selected gesture
@@ -108,7 +108,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
                 case .binoculars where predictedLabel == "Binoculars" && confidence >= self.confLevel,
                         .binoculars where predictedLabel == "InterlaceFingers" && confidence >= self.confLevel,
                         .interlace where predictedLabel == "InterlaceFingers" && confidence >= self.confLevel,
-                        .frame where predictedLabel == "Square" && confidence >= self.confLevel,
+                        .frame where predictedLabel == "Frame" && confidence >= self.confLevel,
                         .wave where predictedLabel == "Wave" && confidence >= self.confLevel:
                     self.falseDetectionTimer?.invalidate()
                     self.falseDetectionTimer = nil

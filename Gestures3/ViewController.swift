@@ -77,7 +77,8 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
             
             // Reset the no observations trigger
             self.noObservationsTriggered = false
-
+            
+            
             if !observations.isEmpty {
                 guard let keypointsMultiArray = try? observations[0].keypointsMultiArray() else {
                     print("Failed to create keypointsMultiArray")
@@ -96,26 +97,33 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
                 }
                 return
             }
-
+            
+            // Check if at least two hands are detected
+            guard observations.count >= 2 else {
+                print("Less than two hands detected.")
+                self.complete(false)
+                return
+            }
+            
             guard let keypointsMultiArray = try? observations[0].keypointsMultiArray() else {
                 print("Failed to create keypointsMultiArray")
                 self.complete(false)
                 return
             }
-
+            
             guard let predictionOutput = try? self.gestureModel.prediction(poses: keypointsMultiArray) else {
                 print("Failed to make prediction")
                 return
             }
-
+            
             let predictedLabel = predictionOutput.label // No need for optional binding
             guard let confidence = predictionOutput.labelProbabilities[predictedLabel] else {
                 print("Unable to retrieve confidence for \(predictedLabel)")
                 return
             }
-
+            
             print("PREDICTION: \(predictedLabel) \(confidence)")
-
+            
             DispatchQueue.main.async {
                 if self.selectedOption == .binoculars && predictedLabel == "Binoculars" && confidence >= 0.9 {
                     self.lastBinocularsDetectionTime = Date()
@@ -135,7 +143,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
                     self.lastWaveDetectionTime = Date()
                     self.complete(true)
                 }
-                if predictedLabel == "Background" && confidence >= 0.9 {
+                if (predictedLabel == "Background" && confidence >= 0.9) || (predictedLabel != "Background" && confidence <= 0.6){
                     self.complete(false)
                 }
             }

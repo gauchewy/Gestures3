@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		067EE3732B7A88E000B8971F /* GESTURES31.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 067EE3722B7A88E000B8971F /* GESTURES31.mlmodel */; };
+		066F632B2B912D9B00975DE9 /* GESTURES31.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 066F632A2B912D9B00975DE9 /* GESTURES31.mlmodel */; };
 		712255D32AF414DF00D719B7 /* Gestures3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255D22AF414DF00D719B7 /* Gestures3App.swift */; };
 		712255D52AF414DF00D719B7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712255D42AF414DF00D719B7 /* ContentView.swift */; };
 		712255D72AF414DF00D719B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 712255D62AF414DF00D719B7 /* Assets.xcassets */; };
@@ -20,7 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		067EE3722B7A88E000B8971F /* GESTURES31.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = GESTURES31.mlmodel; path = ../../../../Desktop/gestures3training/GESTURES31.mlmodel; sourceTree = "<group>"; };
+		066F632A2B912D9B00975DE9 /* GESTURES31.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = GESTURES31.mlmodel; path = ../../../../Desktop/GESTURES31.mlmodel; sourceTree = "<group>"; };
 		712255CF2AF414DF00D719B7 /* Gestures3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gestures3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		712255D22AF414DF00D719B7 /* Gestures3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gestures3App.swift; sourceTree = "<group>"; };
 		712255D42AF414DF00D719B7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -63,7 +63,7 @@
 		712255D12AF414DF00D719B7 /* Gestures3 */ = {
 			isa = PBXGroup;
 			children = (
-				067EE3722B7A88E000B8971F /* GESTURES31.mlmodel */,
+				066F632A2B912D9B00975DE9 /* GESTURES31.mlmodel */,
 				712255D42AF414DF00D719B7 /* ContentView.swift */,
 				712255EA2AF41C4C00D719B7 /* HoldButtonsView.swift */,
 				712255E22AF4152300D719B7 /* OtherView.swift */,
@@ -155,7 +155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				067EE3732B7A88E000B8971F /* GESTURES31.mlmodel in Sources */,
+				066F632B2B912D9B00975DE9 /* GESTURES31.mlmodel in Sources */,
 				712255E52AF4154B00D719B7 /* ViewController.swift in Sources */,
 				712255D52AF414DF00D719B7 /* ContentView.swift in Sources */,
 				712255D32AF414DF00D719B7 /* Gestures3App.swift in Sources */,

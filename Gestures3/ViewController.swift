@@ -74,7 +74,16 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     
     private func setupVision() {
         
+            
         let handler: ([VNHumanHandPoseObservation]) -> Void = { observations in
+                    // Check if at least two hands are detected
+            guard observations.count >= 2 else {
+                print("Fewer than two hands detected.")
+                self.complete(false)
+                return
+            }
+
+            
             if observations.isEmpty {
                 print("No hand poses detected")
                 self.complete(false)

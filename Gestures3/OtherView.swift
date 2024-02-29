@@ -70,7 +70,7 @@ struct OtherView: View {
            case .wave:
                return "hand drawings-04"
            case .interlace:
-               return "hand drawings-03"
+               return "hand drawings-03"  //CHANGE THIS ONE!!!
            }
        }
     

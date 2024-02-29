@@ -11,7 +11,7 @@ enum SelectedOption: String {
     case frame = "Frame"
     case binoculars = "Binoculars"
     case wave = "Wave"
-    case interlace = "Clasp"
+    case interlace = "Interlace"
     //case iscratch = "iScratch"
 }
 

@@ -11,6 +11,7 @@ import CoreML
 
 
 class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
+
     
     var gestureModel: GESTURES31!
     var selectedOption: SelectedOption?

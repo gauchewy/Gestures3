@@ -7,13 +7,6 @@
 
 import SwiftUI
 
-enum SelectedOption: String {
-    case makeframe = "Frame"
-    case binoculars = "Binoculars"
-    case wave = "Wave"
-    case interlace = "Interlace"
-
-}
 
 struct ContentView: View {
     @State private var isSettingsViewShown = false

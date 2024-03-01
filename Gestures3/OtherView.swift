@@ -20,16 +20,19 @@ struct CameraView: UIViewControllerRepresentable {
           return viewController
       }
     func updateUIViewController(_ uiViewController: ViewController, context: Context) {
+        uiViewController.selectedOption = selection
     }
 }
 
 struct OtherView: View {
     let timeInSeconds: Int
-    let selection: SelectedOption
+    var selection: SelectedOption
     
     var onComplete: (([String: Any]) -> Void)? // for saving participant data
     var resetState: () -> Void = {}
     
+    @State private var currentIndex = 0
+
     @State var viewCleared: Bool = false
     @State private var confLevel: Double = 0.9 // Default value
     @State private var timeRemaining = 180 // 180 seconds for 3 minutes
@@ -60,6 +63,12 @@ struct OtherView: View {
            ]
            onComplete?(data)
        }
+    
+    private func resetGestureView() {
+            resetCounter = 0
+            timeRemaining = timeInSeconds
+            viewCleared = false
+        }
     
     var imageName: String {
            switch selection {
@@ -122,8 +131,7 @@ struct OtherView: View {
 //                Text("Confidence Level: \(confLevel, specifier: "%.1f")")
 //                    .font(.subheadline)
 //            }
-//            
-
+//
             
             ZStack{
                 UnlockedView()
@@ -171,10 +179,17 @@ struct OtherView: View {
                            }
                        }
             .onAppear(){
-                resetCounter = 0
-                timeRemaining = timeInSeconds
-                resetState()
+                resetGestureView()
+                            NotificationCenter.default.addObserver(forName: .resetGestureState, object: nil, queue: .main) { _ in
+                                resetGestureView()
+                            }
             }
+            
         }
+        
     }
+    
+}
+extension Notification.Name {
+    static let resetGestureState = Notification.Name("resetGestureState")
 }

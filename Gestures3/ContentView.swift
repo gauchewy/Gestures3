@@ -50,11 +50,11 @@ struct ContentView: View {
                                     }
                                 }
                             }
-                            ToolbarItem(placement: .principal) {
-                                Text("Justure")
-                                    .font(.headline)
-                                    .foregroundColor(.black)
-                            }
+//                            ToolbarItem(placement: .principal) {
+//                                Text("Justure")
+//                                    .font(.headline)
+//                                    .foregroundColor(.black)
+//                            }
                         }
                         .sheet(isPresented: $isSettingsViewShown) {
                             SettingsView()

@@ -9,8 +9,6 @@ import SwiftUI
 
 struct TaskMainView: View {
     @StateObject private var gestureState = GestureState()
-    @State private var type = ["offGestures"]
-    @State private var onGestures = [""]
     @State private var offGestures = ["interlace", "binoculars", "wave", "frame"]
     @State private var currentIndex = 0
     @State private var isScreenshotTaken = false
@@ -29,8 +27,6 @@ struct TaskMainView: View {
     
     
     init() {
-        _type = State(initialValue: type.shuffled())
-        _onGestures = State(initialValue: onGestures.shuffled())
         _offGestures = State(initialValue: offGestures.shuffled())
     }
     
@@ -105,12 +101,12 @@ struct TaskMainView: View {
                 if showCountdown{
                     CountdownView()
                 }
-                else if currentIndex < onGestures.count + offGestures.count {
+                else if currentIndex < offGestures.count {
                    // Display the current gesture view
                    gestureView(for: getCurrentGesture())
 
                    // Check if this is the last gesture
-                   if currentIndex < onGestures.count + offGestures.count - 1 {
+                   if currentIndex < offGestures.count - 1 {
                        // Not the last gesture - show "Next Gesture" button
                        Button("Next Gesture") {
                            moveToNextGesture()
@@ -118,7 +114,7 @@ struct TaskMainView: View {
                        .padding()
                    } else {
                        // Last gesture - show completion text
-                       Text("Task Complete")
+                       Text("")
                    }
                } else {
                    // All tasks are completed
@@ -164,11 +160,9 @@ struct TaskMainView: View {
     }
     
     private func getCurrentGesture() -> String {
-           if type.first == "onGestures" {
-               return currentIndex < onGestures.count ? onGestures[currentIndex] : offGestures[currentIndex - onGestures.count]
-           } else {
-               return currentIndex < offGestures.count ? offGestures[currentIndex] : onGestures[currentIndex - offGestures.count]
-           }
+
+        return currentIndex < offGestures.count ? offGestures[currentIndex] : ""
+
        }
 
 
@@ -214,7 +208,7 @@ struct TaskMainView: View {
                                                      }))
                 
             case "frame":
-                return AnyView(OtherView(selection: .frame,
+                return AnyView(OtherView(selection: .makeframe,
                                                      timeInSeconds: timeInSeconds,
                                                      isPoseDetected: $isPoseDetected,
                                                      onComplete: { data in
@@ -239,56 +233,14 @@ struct TaskMainView: View {
             return 180
         }
     }
-//
-//    func saveParticipantData(_ gestureData: [String: Any]) {
-//        guard let timeRemaining = gestureData["timeRemaining"] as? Int,
-//              let resetCount = gestureData["resetCount"] as? Int else {
-//            print("Invalid data format")
-//            return
-//        }
-//
-//        // Assuming the gesture name is already in 'gestureData' under a key like "gesture"
-//        let gestureName = gestureData["gesture"] as? String ?? "Unknown"
-//
-//        // Format the data as "gesture; time left in timer; counts on counter"
-//        let formattedData = "\(gestureName); \(timeRemaining); \(resetCount)"
-//
-//        // Create a dictionary with the formatted data
-//        let formattedGestureData = ["data": formattedData]
-//
-//        // Create the ParticipantData object
-//        let participantData = ParticipantData(participantNumber: currentParticipantNumber, gestureData: formattedGestureData)
-//        participantDataList.append(participantData)
-//
-//        // Move to the next participant
-//        moveToNextParticipant()
-//    }
-
-        
-//        func moveToNextParticipant() {
-//            if currentIndex >= onGestures.count + offGestures.count - 1 {
-//                currentParticipantNumber += 1
-//                currentIndex = 0 // Reset the index for the next participant
-//                // Reset other states as needed for the next participant
-//            } else {
-//                moveToNextGesture()
-//            }
-//        }
         
         func moveToNextGesture() {
-            if currentIndex < onGestures.count + offGestures.count - 1 {
+            if currentIndex < offGestures.count - 1 {
                 currentIndex += 1
                 isScreenshotTaken = false
                 resetKey = UUID()
             }
         }
-    }
+}
 
-
-    
-//    struct ParticipantData {
-//        var participantNumber: Int
-//        var gestureData: [String: Any]
-//    }
-    
 

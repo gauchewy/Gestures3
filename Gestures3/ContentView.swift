@@ -8,11 +8,11 @@
 import SwiftUI
 
 enum SelectedOption: String {
-    case frame = "Frame"
+    case makeframe = "Frame"
     case binoculars = "Binoculars"
     case wave = "Wave"
     case interlace = "Interlace"
-    //case iscratch = "iScratch"
+
 }
 
 struct ContentView: View {
@@ -46,72 +46,6 @@ struct ContentView: View {
                     ButtonGroupView(isPoseDetected: $isPoseDetected)
                     
                     Spacer()
-                    
-//                    NavigationLink(destination: TapButtonsViewV1(onComplete: {
-//                        print("completed")
-//                    })) {
-//                        Text("Tap Buttons One")
-//                            .font(.headline)
-//                            .frame(minWidth: 0, maxWidth: .infinity)
-//                            .padding()
-//                            .foregroundColor(.white)
-//                            .background(Color.green)
-//                            .cornerRadius(10)
-//                    }.padding()
-//                     .navigationBarTitleDisplayMode(.inline)
-//                    
-//                    NavigationLink(destination: TapButtonsViewV2(onComplete: {
-//                        print("completed")
-//                    })) {
-//                        Text("Tap Buttons Two")
-//                            .font(.headline)
-//                            .frame(minWidth: 0, maxWidth: .infinity)
-//                            .padding()
-//                            .foregroundColor(.white)
-//                            .background(Color.green)
-//                            .cornerRadius(10)
-//                    }.padding()
-//                        .navigationBarTitleDisplayMode(.inline)
-//                    
-//                    NavigationLink(destination: TapButtonsViewV3(onComplete: {
-//                        print("completed")
-//                    })) {
-//                        Text("Tap Buttons Three")
-//                            .font(.headline)
-//                            .frame(minWidth: 0, maxWidth: .infinity)
-//                            .padding()
-//                            .foregroundColor(.white)
-//                            .background(Color.green)
-//                            .cornerRadius(10)
-//                    }.padding()
-//                        .navigationBarTitleDisplayMode(.inline)
-                    
-//                    NavigationLink(destination: SlideButtonsView(onComplete: {
-//                        print("completed")
-//                    })) {
-//                        Text("Slide Buttons")
-//                            .font(.headline)
-//                            .frame(minWidth: 0, maxWidth: .infinity)
-//                            .padding()
-//                            .foregroundColor(.white)
-//                            .background(Color.green)
-//                            .cornerRadius(10)
-//                    }.padding()
-//                        .navigationBarTitleDisplayMode(.inline)
-//                    
-//                    Spacer()
-                    
-//                    NavigationLink(destination: ScratchView()) {
-//                        Text("iScratch")
-//                            .font(.headline)
-//                            .frame(minWidth: 0, maxWidth: .infinity)
-//                            .padding()
-//                            .foregroundColor(.white)
-//                            .background(Color.purple)
-//                            .cornerRadius(10)
-//                    }.padding()
-//                        .navigationBarTitleDisplayMode(.inline)
-                    
                         .toolbar {
                             ToolbarItem(placement: .navigationBarLeading) {
                                 HStack {
@@ -141,8 +75,8 @@ struct ContentView: View {
 }
 
 struct ButtonGroupView: View {
-    let actions: [SelectedOption] = [.frame, .binoculars, .wave, .interlace]
-    @Binding var isPoseDetected: Bool  
+    let actions: [SelectedOption] = [.makeframe, .binoculars, .wave, .interlace]
+    @Binding var isPoseDetected: Bool
 
     var body: some View {
         VStack {

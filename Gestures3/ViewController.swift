@@ -15,15 +15,14 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     var gestureModel: GESTURES31!
     var selectedOption: SelectedOption?
     var onHandPoseDetected: (([VNHumanHandPoseObservation]) -> Void)?
-    var lastInterlaceDetectionTime: Date? = nil
-    var lastBinocularsDetectionTime: Date? = nil
-    var lastSquareDetectionTime: Date? = nil
-    var lastWaveDetectionTime: Date? = nil
+//    var lastInterlaceDetectionTime: Date? = nil
+//    var lastBinocularsDetectionTime: Date? = nil
+//    var lastSquareDetectionTime: Date? = nil
+//    var lastWaveDetectionTime: Date? = nil
     var delayTime: Double = 2.0
-    var confLevel = 0.5 // vary this??? 
+    var confLevel = 0.8 // vary this???
     private var falseDetectionTimer: Timer?
     private var noObservationsTriggered = false
-    //let gestureTimeoutInterval: TimeInterval = 1.0
     let complete: (Bool) -> Void
     
     init(selectedOption: SelectedOption, completion: @escaping (Bool) -> Void) {
@@ -76,12 +75,16 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         
             
         let handler: ([VNHumanHandPoseObservation]) -> Void = { observations in
-                    // Check if at least two hands are detected
-            guard observations.count >= 2 else {
-                print("Fewer than two hands detected.")
-                self.complete(false)
-                return
+            
+            if self.selectedOption != .interlace{
+                // Check if at least two hands are detected
+                guard observations.count >= 2 else {
+                    print("Fewer than two hands detected.")
+                    self.complete(false)
+                    return
+                }
             }
+
 
             
             if observations.isEmpty {
@@ -109,7 +112,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
                 return
             }
             
-            print("PREDICTION: \(predictedLabel) \(confidence)")
+            print("PREDICTION: \(self.selectedOption) \(predictedLabel) \(confidence) \(String(describing: self.complete))")
             
             DispatchQueue.main.async {
                 // Check if the predicted gesture matches the selected gesture
@@ -117,7 +120,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
                 case .binoculars where predictedLabel == "Binoculars" && confidence >= self.confLevel,
                         .binoculars where predictedLabel == "InterlaceFingers" && confidence >= self.confLevel,
                         .interlace where predictedLabel == "InterlaceFingers" && confidence >= self.confLevel,
-                        .frame where predictedLabel == "Square" && confidence >= self.confLevel,
+                        .makeframe where predictedLabel == "Square" && confidence >= self.confLevel,
                         .wave where predictedLabel == "Wave" && confidence >= self.confLevel:
                     self.falseDetectionTimer?.invalidate()
                     self.falseDetectionTimer = nil

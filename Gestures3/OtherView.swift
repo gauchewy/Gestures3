@@ -63,7 +63,7 @@ struct OtherView: View {
     
     var imageName: String {
            switch selection {
-           case .frame:
+           case .makeframe:
                return "hand drawings-01"
            case .binoculars:
                return "hand drawings-02"
@@ -76,14 +76,14 @@ struct OtherView: View {
     
     var titleName: String {
            switch selection {
-           case .frame:
+           case .makeframe:
                return "Frame"
            case .binoculars:
                return "Binoculars"
            case .wave:
                return "Wave"
            case .interlace:
-               return "Clasp Hands"
+               return "Interlace"
            }
        }
     

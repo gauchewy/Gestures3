@@ -122,6 +122,7 @@ struct TaskMainView: View {
                 }
             }
             .onAppear {
+                updateSelection()
                 if isPoseDetected && progressMethod == .detectPose {
                     moveToNextGesture()
                 }
@@ -242,6 +243,7 @@ struct TaskMainView: View {
             isTaskComplete = true
         }
         updateSelection()
+        resetGestureState()
     }
     
     private func resetGestureState() {

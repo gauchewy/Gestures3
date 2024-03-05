@@ -89,6 +89,8 @@ struct TaskMainView: View {
             
             Button("Submit") {
                 print(progressMethod)
+                offGestures = offGestures.shuffled()
+                print(offGestures)
                 isParticipantNumberEntered = true
             }
             .padding()
